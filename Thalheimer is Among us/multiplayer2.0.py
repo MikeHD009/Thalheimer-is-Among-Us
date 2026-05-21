@@ -7940,7 +7940,7 @@ def draw_task_buttons(screen, buttons):
             pygame.draw.rect(screen, (40, 40, 40), r, border_radius=4)
             # Kleine Tastenreihen andeuten
             for i in range(3):
-                pygame.draw.line(screen, (200, 200, 200), (r.x + 5, r.y + 8 + i*10), (r.right - 5, r.y + 8 + i*10), 2, shift=i%2*2)
+                pygame.draw.line(screen, (200, 200, 200), (r.x + 5, r.y + 8 + i*10), (r.right - 5, r.y + 8 + i*10), 2)
 
         # 13. MIKROSKOP
         elif t == "microscope":
