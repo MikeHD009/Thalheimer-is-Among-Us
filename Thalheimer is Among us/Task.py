@@ -2212,7 +2212,7 @@ class VirusScanTask:
             "Schöne_Frau.jpg.exe",
             "Hacker_Tool.exe",
             "AA_Hexenverfolgung.docx",
-            "E_Spannungsreihe.docx"
+            "Passwörter.txt"
         ]
 
         virus_files = []
@@ -3736,7 +3736,6 @@ class ChemicalMixTask:
 # =========================================
 # TEST
 # =========================================
-
 if __name__ == "__main__":
 
     info = pygame.display.Info()
