@@ -26,7 +26,7 @@ clock = pygame.time.Clock()
 # Bilder laden
 # =========================
 player1_image = pygame.image.load(
-    "Assets/Character/All_colors/lime.png"
+    "Thalheimer is Among us/Assets/Character/All_colors/lime.png"
 ).convert_alpha()
 
 player1_image = pygame.transform.scale(
@@ -35,7 +35,7 @@ player1_image = pygame.transform.scale(
 )
 
 player2_image = pygame.image.load(
-    "Assets/Character/All_colors/banana.png"
+    "Thalheimer is Among us/Assets/Character/All_colors/banana.png"
 ).convert_alpha()
 
 player2_image = pygame.transform.scale(
