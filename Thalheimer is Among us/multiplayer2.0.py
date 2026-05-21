@@ -6595,7 +6595,7 @@ class LightBulbTask:
         # =========================
         pygame.draw.rect(self.screen, self.BOX_BLUE, self.box_rect)
         pygame.draw.rect(self.screen, self.BLACK, self.box_rect, width=3)
-        box_lbl = self.font.render("OSRAM", True, self.WHITE)
+        box_lbl = self.font.render("BOX", True, self.WHITE)
         self.screen.blit(box_lbl, (self.box_rect.x + 45, self.box_rect.y + 50))
 
         # =========================
@@ -6610,7 +6610,7 @@ class LightBulbTask:
         # =========================
         # TEXT-ANWEISUNGEN
         # =========================
-        title = self.big_font.render("LIGHT BULB FIX", True, self.WHITE if not self.finished else self.BLACK)
+        title = self.big_font.render("Licht-Fix", True, self.WHITE if not self.finished else self.BLACK)
         self.screen.blit(title, (self.window_x + 320, self.window_y + 20))
 
         if self.phase == "UNSCREW":
@@ -6618,7 +6618,7 @@ class LightBulbTask:
         elif self.phase == "TRASH_OLD":
             info_text = "Wirf die kaputte Birne in den Mülleimer."
         elif self.phase == "GRAB_NEW":
-            info_text = "Nimm eine neue Glühbirne aus der Schachtel."
+            info_text = "Nimm eine neue Glühbirne aus der Schachtel und lege sie unter der Vorrichtung ab.."
         elif self.phase == "SCREW_NEW":
             info_text = "Setze die neue Birne ein und drehe sie fest! (Im Uhrzeigersinn)"
         else:
@@ -6983,13 +6983,13 @@ class LockerCleanTask:
         # =========================
         # TEXT-ANWEISUNGEN
         # =========================
-        title = self.big_font.render("SCHLIESSFACH-PROUTINE", True, self.WHITE)
+        title = self.big_font.render("Schließfach Reparatur", True, self.WHITE)
         self.screen.blit(title, (self.window_x + 200, self.window_y + 20))
 
         if self.phase == "CLEAN_TRASH":
             info_text = "Räume das Schließfach auf: Wirf den Müll in die Tonne!"
         elif self.phase == "ARRANGE_BOOKS":
-            info_text = "Sachen richten: Lege das Schulbuch ordentlich ins obere Fach!"
+            info_text = "Reparaturen: Lege das Schulbuch ordentlich ins obere Fach!"
         elif self.phase == "FIX_DOOR":
             info_text = "Die Tür hängt schief! Klicke auf das obere Scharnier zum Festziehen!"
         else:
@@ -7221,12 +7221,12 @@ class TrashDisposalTask:
         # =========================
         # TEXT-INFOS
         # =========================
-        title = self.big_font.render("BRING OUT THE TRASH", True, self.WHITE)
+        title = self.big_font.render("Bring den Müll raus", True, self.WHITE)
         self.screen.blit(title, (self.window_x + 180, self.window_y + 20))
 
-        info_text = f"Bringe die Müllsäcke weg: {self.disposed_count}/{self.required_bags} entsorgt"
+        info_text = f"Bring die Müllsäcke weg: {self.disposed_count}/{self.required_bags} schon entsorgt"
         if self.finished:
-            info_text = "Hof sauber, Task erledigt! Ab zurück ins Warme."
+            info_text = "Alles sauber, Task erledigt! Ab zurück ins Warme. ;)"
         
         info = self.font.render(info_text, True, self.WHITE if not self.finished else self.GREEN)
         self.screen.blit(info, (self.window_x + 310, self.window_y + 110))
@@ -7494,7 +7494,7 @@ class PipeLeakTask:
         self.screen.blit(lbl_damage, (bar_rect.x, bar_rect.y - 35))
 
         remaining = sum(1 for l in self.leaks if not l["fixed"])
-        info_text = f"Klicke auf die Lecks, um sie zu dichten! ({remaining} offen)"
+        info_text = f"Klicke auf die Lecks, um sie zu dichten! ({remaining} sind noch offen)"
         
         if self.finished:
             info_text = "Alles trocken! Das Rohr hält vorerst wieder."
@@ -7563,10 +7563,7 @@ class PipeLeakTask:
 # =========================
 # Wände
 # =========================
-walls = [
-    pygame.Rect(200, 150, 300, 40),
-    pygame.Rect(100, 400, 500, 40),
-]
+walls = []
 
 # =========================
 # Spieler Klasse
@@ -7782,27 +7779,26 @@ tasks_instances = [
     WindowTask(screen),         # 2
     DownloadDataTask(screen),   # 3
     CleanBoardTask(screen),     # 4
-    DownloadDataTask(screen),   # 5
-    ProjectorWiresTask(screen), # 6
-    VirusScanTask(screen),      # 7
-    PrinterPaperTask(screen),   # 8
-    BunsenBurnerTask(screen),   # 9
-    ChemicalMixTask(screen),    # 10
-    PencilCaseTask(screen),     # 11
-    KeyboardCleanTask(screen),  # 12
-    MicroscopeFocusTask(screen),# 13
-    RepairCurcuit(screen),      # 14
-    BallCollectTask(screen),    # 15
-    MatStackTask(screen),       # 16
-    TraySortingTask(screen),    # 17
-    MilkFillTask(screen),       # 18
-    PizzaCutTask(screen),       # 19
-    VendingMachineTask(screen),  # 20
-    BarcodeScanTask(screen),    # 21
-    LightBulbTask(screen),      # 22
-    LockerCleanTask(screen),    # 23
-    TrashDisposalTask(screen),  # 24
-    PipeLeakTask(screen)        # 25
+    ProjectorWiresTask(screen), # 5
+    VirusScanTask(screen),      # 6
+    PrinterPaperTask(screen),   # 7
+    BunsenBurnerTask(screen),   # 8
+    ChemicalMixTask(screen),    # 9
+    PencilCaseTask(screen),     # 10
+    KeyboardCleanTask(screen),  # 11
+    MicroscopeFocusTask(screen),# 12
+    RepairCurcuit(screen),      # 13
+    BallCollectTask(screen),    # 14
+    MatStackTask(screen),       # 15
+    TraySortingTask(screen),    # 16
+    MilkFillTask(screen),       # 17
+    PizzaCutTask(screen),       # 18
+    VendingMachineTask(screen), # 19
+    BarcodeScanTask(screen),    # 20
+    LightBulbTask(screen),      # 21
+    LockerCleanTask(screen),    # 22
+    TrashDisposalTask(screen),  # 23
+    PipeLeakTask(screen)        # 24
 ]
 
 # 2. Dem Task-Manager die erstellten Tasks übergeben
@@ -7811,43 +7807,31 @@ for t in tasks_instances:
 
 # 3. Die Buttonliste, verknüpft mit dem Index aus dem TaskManager und Grafik-Typen
 task_buttons = [
-    # --- BIBLIOTHEK / KLASSENZIMMER ---
     {"rect": pygame.Rect(100, 100, 60, 70), "type": "books", "task_index": 0, "name": "Bücher sortieren"},
     {"rect": pygame.Rect(200, 100, 50, 70), "type": "chair_stack", "task_index": 1, "name": "Stühle stapeln"},
     {"rect": pygame.Rect(70, 250, 80, 80),  "type": "window", "task_index": 2, "name": "Fenster lüften"},
-    {"rect": pygame.Rect(220, 250, 50, 60), "type": "pencil_case", "task_index": 11, "name": "Mäppchen packen"},
-    {"rect": pygame.Rect(150, 380, 80, 50), "type": "board", "task_index": 4, "name": "Tafel wischen"},
-
-    # --- COMPUTERRAUM / BÜRO ---
     {"rect": pygame.Rect(400, 100, 60, 50), "type": "pc_download", "task_index": 3, "name": "Daten downloaden"},
-    {"rect": pygame.Rect(520, 100, 60, 50), "type": "pc_scan", "task_index": 7, "name": "Virenscan"},
-    {"rect": pygame.Rect(400, 220, 60, 40), "type": "keyboard", "task_index": 12, "name": "Tastatur reinigen"},
-    {"rect": pygame.Rect(520, 220, 65, 60), "type": "printer", "task_index": 8, "name": "Druckerpapier auffüllen"},
-    {"rect": pygame.Rect(460, 340, 70, 50), "type": "projector", "task_index": 6, "name": "Beamer verkabeln"},
-    {"rect": pygame.Rect(410, 440, 60, 50), "type": "pc_download_2", "task_index": 5, "name": "Daten-Backup"},
-
-    # --- PHYSIK / CHEMIE-LABOR ---
-    {"rect": pygame.Rect(750, 100, 40, 70), "type": "bunsen", "task_index": 9, "name": "Bunsenbrenner einstellen"},
-    {"rect": pygame.Rect(850, 100, 50, 65), "type": "chemical", "task_index": 10, "name": "Chemikalien mischen"},
-    {"rect": pygame.Rect(750, 220, 45, 65), "type": "microscope", "task_index": 13, "name": "Mikroskop fokussieren"},
-    {"rect": pygame.Rect(850, 220, 60, 60), "type": "circuit", "task_index": 14, "name": "Schaltkreis reparieren"},
-    {"rect": pygame.Rect(800, 340, 70, 40), "type": "pipe_leak", "task_index": 25, "name": "Rohrbruch dichten"},
-
-    # --- SPORTHALLE ---
-    {"rect": pygame.Rect(100, 520, 60, 60), "type": "ball_basket", "task_index": 15, "name": "Bälle einsammeln"},
-    {"rect": pygame.Rect(220, 530, 80, 45), "type": "mats", "task_index": 16, "name": "Matten stapeln"},
-
-    # --- KANTINE / FLUR ---
-    {"rect": pygame.Rect(420, 540, 70, 65), "type": "tray_sort", "task_index": 17, "name": "Tabletts einsortieren"},
-    {"rect": pygame.Rect(540, 540, 50, 65), "type": "milk_carton", "task_index": 18, "name": "Milch ausschenken"},
-    {"rect": pygame.Rect(640, 540, 60, 60), "type": "pizza", "task_index": 19, "name": "Pizza schneiden"},
-    {"rect": pygame.Rect(760, 510, 65, 90), "type": "vending", "task_index": 20, "name": "Verklemmten Automaten rütteln"},
-    {"rect": pygame.Rect(880, 540, 55, 60), "type": "barcode", "task_index": 21, "name": "Barcodes scannen"},
-
-    # --- WARTUNG / KELLER ---
-    {"rect": pygame.Rect(1020, 200, 45, 70), "type": "locker", "task_index": 23, "name": "Spind aufräumen"},
-    {"rect": pygame.Rect(1020, 340, 50, 70), "type": "trash_bin", "task_index": 24, "name": "Müll wegbringen"},
-    {"rect": pygame.Rect(1020, 480, 40, 60), "type": "light_bulb", "task_index": 22, "name": "Glühbirne wechseln"},
+    {"rect": pygame.Rect(150, 380, 80, 50), "type": "board", "task_index": 4, "name": "Tafel wischen"},
+    {"rect": pygame.Rect(460, 340, 70, 50), "type": "projector", "task_index": 5, "name": "Beamer verkabeln"},
+    {"rect": pygame.Rect(520, 100, 60, 50), "type": "pc_scan", "task_index": 6, "name": "Virenscan"},
+    {"rect": pygame.Rect(520, 220, 65, 60), "type": "printer", "task_index": 7, "name": "Druckerpapier auffüllen"},
+    {"rect": pygame.Rect(750, 100, 40, 70), "type": "bunsen", "task_index": 8, "name": "Bunsenbrenner einstellen"},
+    {"rect": pygame.Rect(850, 100, 50, 65), "type": "chemical", "task_index": 9, "name": "Chemikalien mischen"},
+    {"rect": pygame.Rect(220, 250, 50, 60), "type": "pencil_case", "task_index": 10, "name": "Mäppchen packen"},
+    {"rect": pygame.Rect(400, 220, 60, 40), "type": "keyboard", "task_index": 11, "name": "Tastatur reinigen"},
+    {"rect": pygame.Rect(750, 220, 45, 65), "type": "microscope", "task_index": 12, "name": "Mikroskop fokussieren"},
+    {"rect": pygame.Rect(850, 220, 60, 60), "type": "circuit", "task_index": 13, "name": "Schaltkreis reparieren"},
+    {"rect": pygame.Rect(100, 520, 60, 60), "type": "ball_basket", "task_index": 14, "name": "Bälle einsammeln"},
+    {"rect": pygame.Rect(220, 530, 80, 45), "type": "mats", "task_index": 15, "name": "Matten stapeln"},
+    {"rect": pygame.Rect(420, 540, 70, 65), "type": "tray_sort", "task_index": 16, "name": "Tablett sortieren"},
+    {"rect": pygame.Rect(540, 540, 50, 65), "type": "milk_carton", "task_index": 17, "name": "Milch einfüllen"},
+    {"rect": pygame.Rect(640, 540, 60, 60), "type": "pizza", "task_index": 18, "name": "Pizza schneiden"},
+    {"rect": pygame.Rect(760, 510, 65, 90), "type": "vending", "task_index": 19, "name": "Automat klemmt"},
+    {"rect": pygame.Rect(880, 540, 55, 60), "type": "barcode", "task_index": 20, "name": "Barcodes scannen"},
+    {"rect": pygame.Rect(1020, 480, 40, 60), "type": "light_bulb", "task_index": 21, "name": "Glühbirne wechseln"},
+    {"rect": pygame.Rect(1020, 200, 45, 70), "type": "locker", "task_index": 22, "name": "Spind aufräumen"},
+    {"rect": pygame.Rect(1020, 340, 50, 70), "type": "trash_bin", "task_index": 23, "name": "Müll wegbringen"},
+    {"rect": pygame.Rect(800, 340, 70, 40), "type": "pipe_leak", "task_index": 24, "name": "Rohrbruch dichten"},
 ]
 
 def draw_task_buttons(screen, buttons, player_obj):
