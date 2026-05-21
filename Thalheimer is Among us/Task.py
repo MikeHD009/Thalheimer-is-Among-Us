@@ -3746,7 +3746,7 @@ if __name__ == "__main__":
 
     clock = pygame.time.Clock()
 
-    task = ChemicalMixTask(screen)
+    task = ChairStackTask(screen)
 
     running = True
 
