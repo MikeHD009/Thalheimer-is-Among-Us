@@ -7,7 +7,6 @@ pygame.init()
 # =========================================
 # BOOK SORT TASK (Among Us Style)
 # =========================================
-
 class BookSortTask:
     def __init__(self, screen):
         self.screen = screen
@@ -16,7 +15,6 @@ class BookSortTask:
         # =========================
         # TASK WINDOW
         # =========================
-
         self.window_width = 1100
         self.window_height = 700
 
@@ -35,7 +33,6 @@ class BookSortTask:
         # =========================
         # FARBEN
         # =========================
-
         self.WHITE = (240, 240, 240)
         self.BLACK = (20, 20, 20)
         self.GREEN = (0, 200, 0)
@@ -2449,6 +2446,1293 @@ class VirusScanTask:
     def is_finished(self):
         return self.finished
 
+class PrinterPaperTask:
+    def __init__(self, screen):
+
+        self.screen = screen
+        self.screen_width, self.screen_height = screen.get_size()
+
+        # =========================
+        # TASK WINDOW
+        # =========================
+
+        self.window_width = 1200
+        self.window_height = 750
+
+        self.window_x = (
+            self.screen_width - self.window_width
+        ) // 2
+
+        self.window_y = (
+            self.screen_height - self.window_height
+        ) // 2
+
+        self.task_rect = pygame.Rect(
+            self.window_x,
+            self.window_y,
+            self.window_width,
+            self.window_height
+        )
+
+        # =========================
+        # FARBEN
+        # =========================
+
+        self.WHITE = (240, 240, 240)
+        self.BLACK = (20, 20, 20)
+
+        self.GRAY = (110, 110, 110)
+        self.DARK_GRAY = (60, 60, 60)
+
+        self.GREEN = (60, 200, 100)
+        self.BLUE = (90, 130, 255)
+
+        # =========================
+        # SCHRIFT
+        # =========================
+
+        self.font = pygame.font.SysFont(
+            "arial",
+            40
+        )
+
+        self.big_font = pygame.font.SysFont(
+            "arial",
+            70
+        )
+
+        # =========================
+        # DRUCKER
+        # =========================
+
+        self.printer_rect = pygame.Rect(
+            self.window_x + 650,
+            self.window_y + 180,
+            380,
+            350
+        )
+
+        # Papierfach
+
+        self.paper_slot = pygame.Rect(
+            self.window_x + 760,
+            self.window_y + 390,
+            150,
+            90
+        )
+
+        # =========================
+        # PAPIER
+        # =========================
+
+        self.paper_stack = pygame.Rect(
+            self.window_x + 180,
+            self.window_y + 340,
+            140,
+            80
+        )
+
+        self.paper_inserted = False
+
+        # =========================
+        # DRAG & DROP
+        # =========================
+
+        self.dragging = False
+
+        self.offset_x = 0
+        self.offset_y = 0
+
+        # =========================
+        # STATUS
+        # =========================
+
+        self.finished = False
+
+    def draw(self):
+
+        # Hintergrund
+        self.screen.fill((20, 20, 30))
+
+        # =========================
+        # TASK WINDOW
+        # =========================
+
+        pygame.draw.rect(
+            self.screen,
+            self.WHITE,
+            self.task_rect,
+            border_radius=20
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            self.BLACK,
+            self.task_rect,
+            width=5,
+            border_radius=20
+        )
+
+        # =========================
+        # TITEL
+        # =========================
+
+        title = self.big_font.render(
+            "REFILL PRINTER",
+            True,
+            self.BLACK
+        )
+
+        self.screen.blit(
+            title,
+            (
+                self.window_x + 280,
+                self.window_y + 20
+            )
+        )
+
+        info = self.font.render(
+            "Setze den Papierstapel richtig ein",
+            True,
+            self.BLACK
+        )
+
+        self.screen.blit(
+            info,
+            (
+                self.window_x + 260,
+                self.window_y + 100
+            )
+        )
+
+        # =========================
+        # DRUCKER
+        # =========================
+
+        pygame.draw.rect(
+            self.screen,
+            self.GRAY,
+            self.printer_rect,
+            border_radius=20
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            self.BLACK,
+            self.printer_rect,
+            width=5,
+            border_radius=20
+        )
+
+        # Drucker Display
+
+        display_rect = pygame.Rect(
+            self.printer_rect.x + 90,
+            self.printer_rect.y + 50,
+            200,
+            60
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            self.DARK_GRAY,
+            display_rect,
+            border_radius=10
+        )
+
+        if not self.paper_inserted:
+
+            display_text = self.font.render(
+                "NO PAPER",
+                True,
+                (255, 80, 80)
+            )
+
+        else:
+
+            display_text = self.font.render(
+                "READY",
+                True,
+                self.GREEN
+            )
+
+        self.screen.blit(
+            display_text,
+            (
+                display_rect.x + 25,
+                display_rect.y + 10
+            )
+        )
+
+        # =========================
+        # PAPIERFACH
+        # =========================
+
+        pygame.draw.rect(
+            self.screen,
+            self.DARK_GRAY,
+            self.paper_slot,
+            border_radius=10
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            self.BLACK,
+            self.paper_slot,
+            width=4,
+            border_radius=10
+        )
+
+        slot_text = self.font.render(
+            "TRAY",
+            True,
+            self.WHITE
+        )
+
+        self.screen.blit(
+            slot_text,
+            (
+                self.paper_slot.x + 35,
+                self.paper_slot.y + 20
+            )
+        )
+
+        # =========================
+        # PAPIERSTAPEL
+        # =========================
+
+        if not self.paper_inserted:
+
+            for i in range(6):
+
+                paper_rect = pygame.Rect(
+                    self.paper_stack.x,
+                    self.paper_stack.y - i * 3,
+                    self.paper_stack.width,
+                    self.paper_stack.height
+                )
+
+                pygame.draw.rect(
+                    self.screen,
+                    self.WHITE,
+                    paper_rect,
+                    border_radius=4
+                )
+
+                pygame.draw.rect(
+                    self.screen,
+                    self.BLACK,
+                    paper_rect,
+                    width=2,
+                    border_radius=4
+                )
+
+        # =========================
+        # TASK FINISHED
+        # =========================
+
+        if self.finished:
+
+            finished = self.big_font.render(
+                "PRINTER READY",
+                True,
+                self.GREEN
+            )
+
+            self.screen.blit(
+                finished,
+                (
+                    self.window_x + 250,
+                    self.window_y + 600
+                )
+            )
+
+    def handle_event(self, event):
+
+        if self.finished:
+            return
+
+        # =========================
+        # MAUS KLICK
+        # =========================
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+
+            mouse_pos = pygame.mouse.get_pos()
+
+            if (
+                self.paper_stack.collidepoint(mouse_pos)
+                and
+                not self.paper_inserted
+            ):
+
+                self.dragging = True
+
+                self.offset_x = (
+                    self.paper_stack.x - mouse_pos[0]
+                )
+
+                self.offset_y = (
+                    self.paper_stack.y - mouse_pos[1]
+                )
+
+        # =========================
+        # BEWEGEN
+        # =========================
+
+        elif event.type == pygame.MOUSEMOTION:
+
+            if self.dragging:
+
+                mouse_pos = pygame.mouse.get_pos()
+
+                self.paper_stack.x = (
+                    mouse_pos[0] + self.offset_x
+                )
+
+                self.paper_stack.y = (
+                    mouse_pos[1] + self.offset_y
+                )
+
+        # =========================
+        # LOSLASSEN
+        # =========================
+
+        elif event.type == pygame.MOUSEBUTTONUP:
+
+            if self.dragging:
+
+                self.dragging = False
+
+                # Papier korrekt eingesetzt?
+
+                if self.paper_slot.colliderect(
+                    self.paper_stack
+                ):
+
+                    self.paper_stack.x = (
+                        self.paper_slot.x + 5
+                    )
+
+                    self.paper_stack.y = (
+                        self.paper_slot.y + 5
+                    )
+
+                    self.paper_inserted = True
+
+                    self.check_finished()
+
+    def check_finished(self):
+
+        if self.paper_inserted:
+            self.finished = True
+
+    def is_finished(self):
+        return self.finished
+
+class BunsenBurnerTask:
+    def __init__(self, screen):
+
+        self.screen = screen
+        self.screen_width, self.screen_height = screen.get_size()
+
+        # =========================
+        # TASK WINDOW
+        # =========================
+
+        self.window_width = 1200
+        self.window_height = 750
+
+        self.window_x = (
+            self.screen_width - self.window_width
+        ) // 2
+
+        self.window_y = (
+            self.screen_height - self.window_height
+        ) // 2
+
+        self.task_rect = pygame.Rect(
+            self.window_x,
+            self.window_y,
+            self.window_width,
+            self.window_height
+        )
+
+        # =========================
+        # FARBEN
+        # =========================
+
+        self.WHITE = (240, 240, 240)
+        self.BLACK = (20, 20, 20)
+
+        self.RED = (220, 60, 60)
+        self.GREEN = (60, 200, 100)
+        self.BLUE = (70, 120, 255)
+
+        self.GRAY = (120, 120, 120)
+        self.DARK_GRAY = (60, 60, 60)
+
+        self.ORANGE = (255, 140, 0)
+
+        # =========================
+        # SCHRIFT
+        # =========================
+
+        self.font = pygame.font.SysFont(
+            "arial",
+            40
+        )
+
+        self.big_font = pygame.font.SysFont(
+            "arial",
+            70
+        )
+
+        # =========================
+        # TEMPERATUR
+        # =========================
+
+        self.temperature = 20
+
+        self.min_temp = 45
+        self.max_temp = 65
+
+        # =========================
+        # REGLER
+        # =========================
+
+        self.slider_rect = pygame.Rect(
+            self.window_x + 220,
+            self.window_y + 580,
+            700,
+            12
+        )
+
+        self.knob_rect = pygame.Rect(
+            self.slider_rect.x,
+            self.slider_rect.y - 14,
+            30,
+            40
+        )
+
+        self.dragging = False
+
+        # =========================
+        # STATUS
+        # =========================
+
+        self.finished = False
+
+        self.hold_timer = 0
+        self.required_hold_time = 180
+
+    def draw(self):
+
+        # Hintergrund
+        self.screen.fill((20, 20, 30))
+
+        # =========================
+        # TASK WINDOW
+        # =========================
+
+        pygame.draw.rect(
+            self.screen,
+            self.WHITE,
+            self.task_rect,
+            border_radius=20
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            self.BLACK,
+            self.task_rect,
+            width=5,
+            border_radius=20
+        )
+
+        # =========================
+        # TITEL
+        # =========================
+
+        title = self.big_font.render(
+            "BUNSEN BURNER",
+            True,
+            self.BLACK
+        )
+
+        self.screen.blit(
+            title,
+            (
+                self.window_x + 240,
+                self.window_y + 20
+            )
+        )
+
+        info = self.font.render(
+            "Halte die Temperatur im grünen Bereich",
+            True,
+            self.BLACK
+        )
+
+        self.screen.blit(
+            info,
+            (
+                self.window_x + 220,
+                self.window_y + 100
+            )
+        )
+
+        # =========================
+        # TEMPERATUR ANZEIGE
+        # =========================
+
+        temp_text = self.big_font.render(
+            f"{int(self.temperature)}°C",
+            True,
+            self.BLACK
+        )
+
+        self.screen.blit(
+            temp_text,
+            (
+                self.window_x + 470,
+                self.window_y + 170
+            )
+        )
+
+        # =========================
+        # THERMOMETER
+        # =========================
+
+        thermometer_rect = pygame.Rect(
+            self.window_x + 120,
+            self.window_y + 180,
+            60,
+            320
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            self.GRAY,
+            thermometer_rect,
+            border_radius=20
+        )
+
+        # Temperaturfüllung
+
+        fill_height = int(
+            (self.temperature / 100) * 300
+        )
+
+        fill_rect = pygame.Rect(
+            thermometer_rect.x + 10,
+            thermometer_rect.bottom - fill_height - 10,
+            40,
+            fill_height
+        )
+
+        # Farbe je nach Temperatur
+
+        if self.min_temp <= self.temperature <= self.max_temp:
+            temp_color = self.GREEN
+        elif self.temperature < self.min_temp:
+            temp_color = self.BLUE
+        else:
+            temp_color = self.RED
+
+        pygame.draw.rect(
+            self.screen,
+            temp_color,
+            fill_rect,
+            border_radius=10
+        )
+
+        # =========================
+        # GRÜNER BEREICH
+        # =========================
+
+        green_zone_y = (
+            thermometer_rect.bottom
+            -
+            int((self.max_temp / 100) * 300)
+        )
+
+        green_zone_height = int(
+            ((self.max_temp - self.min_temp) / 100)
+            * 300
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            (100, 255, 100),
+            (
+                thermometer_rect.x - 15,
+                green_zone_y,
+                90,
+                green_zone_height
+            ),
+            width=4,
+            border_radius=10
+        )
+
+        # =========================
+        # BRENNER
+        # =========================
+
+        burner_rect = pygame.Rect(
+            self.window_x + 500,
+            self.window_y + 330,
+            160,
+            180
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            self.DARK_GRAY,
+            burner_rect,
+            border_radius=20
+        )
+
+        # Flamme
+
+        flame_height = int(
+            self.temperature * 2
+        )
+
+        flame_color = temp_color
+
+        flame_points = [
+            (
+                burner_rect.centerx,
+                burner_rect.y - flame_height
+            ),
+
+            (
+                burner_rect.x + 35,
+                burner_rect.y
+            ),
+
+            (
+                burner_rect.right - 35,
+                burner_rect.y
+            )
+        ]
+
+        pygame.draw.polygon(
+            self.screen,
+            flame_color,
+            flame_points
+        )
+
+        # =========================
+        # SLIDER
+        # =========================
+
+        pygame.draw.rect(
+            self.screen,
+            self.BLACK,
+            self.slider_rect,
+            border_radius=10
+        )
+
+        # Grüner Bereich am Slider
+
+        green_x = (
+            self.slider_rect.x
+            +
+            int((self.min_temp / 100)
+            * self.slider_rect.width)
+        )
+
+        green_width = int(
+            ((self.max_temp - self.min_temp) / 100)
+            * self.slider_rect.width
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            self.GREEN,
+            (
+                green_x,
+                self.slider_rect.y - 4,
+                green_width,
+                20
+            ),
+            border_radius=10
+        )
+
+        # Regler
+
+        pygame.draw.rect(
+            self.screen,
+            self.ORANGE,
+            self.knob_rect,
+            border_radius=10
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            self.BLACK,
+            self.knob_rect,
+            width=3,
+            border_radius=10
+        )
+
+        # =========================
+        # PROGRESS
+        # =========================
+
+        progress = int(
+            (self.hold_timer / self.required_hold_time)
+            * 100
+        )
+
+        progress_text = self.font.render(
+            f"Stabilisieren: {progress}%",
+            True,
+            self.BLACK
+        )
+
+        self.screen.blit(
+            progress_text,
+            (
+                self.window_x + 400,
+                self.window_y + 640
+            )
+        )
+
+        # =========================
+        # TASK FINISHED
+        # =========================
+
+        if self.finished:
+
+            finished = self.big_font.render(
+                "TEMPERATURE STABLE",
+                True,
+                self.GREEN
+            )
+
+            self.screen.blit(
+                finished,
+                (
+                    self.window_x + 170,
+                    self.window_y + 260
+                )
+            )
+
+    def update(self):
+
+        if self.finished:
+            return
+
+        # =========================
+        # TEMPERATUR CHECK
+        # =========================
+
+        if (
+            self.min_temp
+            <=
+            self.temperature
+            <=
+            self.max_temp
+        ):
+
+            self.hold_timer += 1
+
+        else:
+
+            self.hold_timer = 0
+
+        # Task geschafft?
+
+        if self.hold_timer >= self.required_hold_time:
+
+            self.finished = True
+
+    def handle_event(self, event):
+
+        if self.finished:
+            return
+
+        # =========================
+        # MAUS KLICK
+        # =========================
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+
+            mouse_pos = pygame.mouse.get_pos()
+
+            if self.knob_rect.collidepoint(mouse_pos):
+
+                self.dragging = True
+
+        # =========================
+        # MAUS BEWEGEN
+        # =========================
+
+        elif event.type == pygame.MOUSEMOTION:
+
+            if self.dragging:
+
+                mouse_x = pygame.mouse.get_pos()[0]
+
+                # Slider Begrenzung
+
+                min_x = self.slider_rect.x
+                max_x = (
+                    self.slider_rect.right
+                    - self.knob_rect.width
+                )
+
+                self.knob_rect.x = max(
+                    min_x,
+                    min(mouse_x, max_x)
+                )
+
+                # Temperatur berechnen
+
+                percent = (
+                    (self.knob_rect.x - min_x)
+                    /
+                    (max_x - min_x)
+                )
+
+                self.temperature = percent * 100
+
+        # =========================
+        # LOSLASSEN
+        # =========================
+
+        elif event.type == pygame.MOUSEBUTTONUP:
+
+            self.dragging = False
+
+    def is_finished(self):
+        return self.finished
+
+class ChemicalMixTask:
+    def __init__(self, screen):
+
+        self.screen = screen
+        self.screen_width, self.screen_height = screen.get_size()
+
+        # =========================
+        # TASK WINDOW
+        # =========================
+
+        self.window_width = 1250
+        self.window_height = 760
+
+        self.window_x = (
+            self.screen_width - self.window_width
+        ) // 2
+
+        self.window_y = (
+            self.screen_height - self.window_height
+        ) // 2
+
+        self.task_rect = pygame.Rect(
+            self.window_x,
+            self.window_y,
+            self.window_width,
+            self.window_height
+        )
+
+        # =========================
+        # FARBEN
+        # =========================
+
+        self.WHITE = (240, 240, 240)
+        self.BLACK = (20, 20, 20)
+
+        self.RED = (220, 60, 60)
+        self.BLUE = (60, 120, 255)
+        self.YELLOW = (255, 220, 0)
+
+        self.GREEN = (60, 200, 100)
+        self.PURPLE = (170, 0, 255)
+        self.ORANGE = (255, 140, 0)
+
+        self.GRAY = (120, 120, 120)
+
+        # =========================
+        # SCHRIFT
+        # =========================
+
+        self.font = pygame.font.SysFont(
+            "arial",
+            30
+        )
+
+        self.big_font = pygame.font.SysFont(
+            "arial",
+            65
+        )
+
+        # =========================
+        # REZEPT
+        # =========================
+
+        self.recipes = [
+            {
+                "result_name": "GREEN",
+                "result_color": self.GREEN,
+                "needed": ["BLUE", "YELLOW"]
+            },
+
+            {
+                "result_name": "PURPLE",
+                "result_color": self.PURPLE,
+                "needed": ["RED", "BLUE"]
+            },
+
+            {
+                "result_name": "ORANGE",
+                "result_color": self.ORANGE,
+                "needed": ["RED", "YELLOW"]
+            }
+        ]
+
+        self.current_recipe = random.choice(
+            self.recipes
+        )
+
+        # =========================
+        # CHEMIKALIEN
+        # =========================
+
+        self.chemicals = []
+
+        self.create_chemicals()
+
+        # =========================
+        # MISCHBECHER
+        # =========================
+
+        self.cauldron_rect = pygame.Rect(
+            self.window_x + 500,
+            self.window_y + 260,
+            240,
+            220
+        )
+
+        self.inserted = []
+
+        # =========================
+        # STATUS
+        # =========================
+
+        self.finished = False
+
+    def create_chemicals(self):
+
+        chemicals_data = [
+
+            {
+                "name": "RED",
+                "color": self.RED,
+                "x": self.window_x + 120
+            },
+
+            {
+                "name": "BLUE",
+                "color": self.BLUE,
+                "x": self.window_x + 120
+            },
+
+            {
+                "name": "YELLOW",
+                "color": self.YELLOW,
+                "x": self.window_x + 120
+            }
+        ]
+
+        for i, chem in enumerate(chemicals_data):
+
+            rect = pygame.Rect(
+                chem["x"],
+                self.window_y + 220 + (i * 150),
+                120,
+                120
+            )
+
+            self.chemicals.append({
+
+                "name": chem["name"],
+                "color": chem["color"],
+                "rect": rect,
+                "used": False
+            })
+
+    def draw(self):
+
+        # Hintergrund
+        self.screen.fill((20, 20, 30))
+
+        # =========================
+        # TASK WINDOW
+        # =========================
+
+        pygame.draw.rect(
+            self.screen,
+            self.WHITE,
+            self.task_rect,
+            border_radius=20
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            self.BLACK,
+            self.task_rect,
+            width=5,
+            border_radius=20
+        )
+
+        # =========================
+        # TITEL
+        # =========================
+
+        title = self.big_font.render(
+            "CHEMICAL MIX",
+            True,
+            self.BLACK
+        )
+
+        self.screen.blit(
+            title,
+            (
+                self.window_x + 330,
+                self.window_y + 20
+            )
+        )
+
+        # =========================
+        # AUFGABE
+        # =========================
+
+        recipe_text = self.font.render(
+            f"Erstelle: {self.current_recipe['result_name']}",
+            True,
+            self.BLACK
+        )
+
+        self.screen.blit(
+            recipe_text,
+            (
+                self.window_x + 390,
+                self.window_y + 100
+            )
+        )
+
+        # Zielfarbe
+
+        pygame.draw.circle(
+            self.screen,
+            self.current_recipe["result_color"],
+            (
+                self.window_x + 830,
+                self.window_y + 120
+            ),
+            35
+        )
+
+        pygame.draw.circle(
+            self.screen,
+            self.BLACK,
+            (
+                self.window_x + 830,
+                self.window_y + 120
+            ),
+            35,
+            4
+        )
+
+        # =========================
+        # CHEMIKALIEN
+        # =========================
+
+        for chem in self.chemicals:
+
+            if chem["used"]:
+                continue
+
+            pygame.draw.rect(
+                self.screen,
+                chem["color"],
+                chem["rect"],
+                border_radius=15
+            )
+
+            pygame.draw.rect(
+                self.screen,
+                self.BLACK,
+                chem["rect"],
+                width=4,
+                border_radius=15
+            )
+
+            text = self.font.render(
+                chem["name"],
+                True,
+                self.WHITE
+            )
+
+            text_rect = text.get_rect(
+                center=chem["rect"].center
+            )
+
+            self.screen.blit(
+                text,
+                text_rect
+            )
+
+        # =========================
+        # MISCHBECHER
+        # =========================
+
+        pygame.draw.rect(
+            self.screen,
+            self.GRAY,
+            self.cauldron_rect,
+            border_radius=20
+        )
+
+        pygame.draw.rect(
+            self.screen,
+            self.BLACK,
+            self.cauldron_rect,
+            width=5,
+            border_radius=20
+        )
+
+        cauldron_text = self.font.render(
+            "MIXER",
+            True,
+            self.BLACK
+        )
+
+        self.screen.blit(
+            cauldron_text,
+            (
+                self.cauldron_rect.x + 55,
+                self.cauldron_rect.y + 20
+            )
+        )
+
+        # =========================
+        # EINGEFÜLLTE CHEMIKALIEN
+        # =========================
+
+        for i, chem in enumerate(self.inserted):
+
+            pygame.draw.circle(
+                self.screen,
+                chem["color"],
+                (
+                    self.cauldron_rect.centerx,
+                    self.cauldron_rect.y + 90 + (i * 50)
+                ),
+                25
+            )
+
+            pygame.draw.circle(
+                self.screen,
+                self.BLACK,
+                (
+                    self.cauldron_rect.centerx,
+                    self.cauldron_rect.y + 90 + (i * 50)
+                ),
+                25,
+                3
+            )
+
+        # =========================
+        # TASK FINISHED
+        # =========================
+
+        if self.finished:
+
+            finished = self.big_font.render(
+                "MIX SUCCESSFUL",
+                True,
+                self.GREEN
+            )
+
+            self.screen.blit(
+                finished,
+                (
+                    self.window_x + 260,
+                    self.window_y + 610
+                )
+            )
+
+    def handle_event(self, event):
+
+        if self.finished:
+            return
+
+        # =========================
+        # MAUS KLICK
+        # =========================
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+
+            mouse_pos = pygame.mouse.get_pos()
+
+            for chem in self.chemicals:
+
+                if chem["used"]:
+                    continue
+
+                if chem["rect"].collidepoint(mouse_pos):
+
+                    chem["used"] = True
+
+                    self.inserted.append(chem)
+
+                    self.check_mix()
+
+                    break
+
+    def check_mix(self):
+
+        # Schon genug Zutaten?
+
+        if len(self.inserted) < 2:
+            return
+
+        inserted_names = []
+
+        for chem in self.inserted:
+
+            inserted_names.append(
+                chem["name"]
+            )
+
+        inserted_names.sort()
+
+        needed = self.current_recipe["needed"].copy()
+        needed.sort()
+
+        # Richtige Mischung?
+
+        if inserted_names == needed:
+
+            self.finished = True
+
+        else:
+
+            # Falsche Mischung -> Reset
+
+            for chem in self.chemicals:
+                chem["used"] = False
+
+            self.inserted.clear()
+
+    def is_finished(self):
+        return self.finished
+
 # =========================================
 # TEST
 # =========================================
@@ -2463,7 +3747,7 @@ if __name__ == "__main__":
 
     clock = pygame.time.Clock()
 
-    task = VirusScanTask(screen)
+    task = ChemicalMixTask(screen)
 
     running = True
 
