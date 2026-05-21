@@ -7855,19 +7855,17 @@ def draw_task_buttons(screen, buttons, player_obj):
         r = btn["rect"]
         t = btn["type"]
         
-        # --- HIER ERFOLGT DIE ABSTANDSPRÜFUNG ---
-        # Abstand zwischen der Mitte des Spielers und der Mitte des Buttons berechnen
-        player_center = (player_obj.x + PLAYER_SIZE // 2, player_obj.y + PLAYER_SIZE // 2)
+        # Abstand zwischen der Mitte des Spieler-Rects und der Mitte des Button-Rects
+        player_center = player_obj.rect.center
         button_center = r.center
         distance = math.hypot(player_center[0] - button_center[0], player_center[1] - button_center[1])
         
         # Text-Indikator rendern, wenn man in der Nähe steht
         if distance < 85:
-            # Ein dunkler Hintergrund für den Text, damit man ihn auf der Map sieht
             lbl_text = proximity_font.render(f"[E] {btn['name']}", True, (255, 255, 255))
             lbl_bg = pygame.Rect(button_center[0] - lbl_text.get_width() // 2 - 6, r.y - 32, lbl_text.get_width() + 12, 24)
             pygame.draw.rect(screen, (20, 20, 20), lbl_bg, border_radius=4)
-            pygame.draw.rect(screen, (0, 220, 100), lbl_bg, width=1, border_radius=4) # Grüner Rand
+            pygame.draw.rect(screen, (0, 220, 100), lbl_bg, width=1, border_radius=4)
             screen.blit(lbl_text, (button_center[0] - lbl_text.get_width() // 2, r.y - 30))
 
         # --- AB HIER FOLGT DAS VISUELLE DESIGN DER BUTTONS ---
@@ -8104,36 +8102,35 @@ while running:
 
             if event.key == pygame.K_e:
 
-                for i, btn in enumerate(task_buttons):
-
-                    distance_x = my_player.rect.centerx - btn.centerx
-                    distance_y = my_player.rect.centery - btn.centery
-
-                    if abs(distance_x) < 100 and abs(distance_y) < 100:
-
-                        if task_manager.active_task is None:
-                            if task_manager.tasks[i].finished:
-                                task_manager.show_message("Task already completed")
-                            else:
-                                task_manager.start_task(i)
-
+                for btn in task_buttons:
+                    # Hier greifen wir korrekt auf das .rect des Spielers und des Buttons zu:
+                    player_center = my_player.rect.center
+                    button_center = btn["rect"].center
+                    
+                    # Abstand berechnen
+                    distance = math.hypot(player_center[0] - button_center[0], player_center[1] - button_center[1])
+                    
+                    # Wenn nahe genug dran (z.B. weniger als 85 Pixel), starte den Task
+                    if distance < 85:
+                        task_manager.start_task(btn["task_index"])
                         break
 
         if event.type == pygame.MOUSEBUTTONDOWN:
 
             mouse_pos = pygame.mouse.get_pos()
 
-            for i, btn in enumerate(task_buttons):
-                distance_x = my_player.rect.centerx - btn.centerx
-                distance_y = my_player.rect.centery - btn.centery
-
-                if abs(distance_x) < 100 and abs(distance_y) < 100:
-                    if btn.collidepoint(event.pos):
-                        if task_manager.active_task is None:
-                            if task_manager.tasks[i].finished:
-                                task_manager.show_message("Task already completed")
-                            else:
-                                task_manager.start_task(i)
+            for btn in task_buttons:
+                # Hier greifen wir korrekt auf das .rect des Spielers und des Buttons zu:
+                player_center = my_player.rect.center
+                button_center = btn["rect"].center
+                
+                # Abstand berechnen
+                distance = math.hypot(player_center[0] - button_center[0], player_center[1] - button_center[1])
+                
+                # Wenn nahe genug dran (z.B. weniger als 85 Pixel), starte den Task
+                if distance < 85:
+                    task_manager.start_task(btn["task_index"])
+                    break
 
         # =========================
         # TASK EVENTS
