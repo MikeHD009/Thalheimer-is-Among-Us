@@ -7772,254 +7772,263 @@ def connect_to_server(ip):
 
 task_manager = TaskManager()
 
-task_manager.add_task(BookSortTask(screen))
-task_manager.add_task(ChairStackTask(screen))
-task_manager.add_task(WindowTask(screen))
-task_manager.add_task(DownloadDataTask(screen))
-task_manager.add_task(CleanBoardTask(screen))
-task_manager.add_task(DownloadDataTask(screen))
-task_manager.add_task(ProjectorWiresTask(screen))
-task_manager.add_task(VirusScanTask(screen))
-task_manager.add_task(PrinterPaperTask(screen))
-task_manager.add_task(BunsenBurnerTask(screen))
-task_manager.add_task(ChemicalMixTask(screen))
-task_manager.add_task(PencilCaseTask(screen))
-task_manager.add_task(KeyboardCleanTask(screen))
-task_manager.add_task(MicroscopeFocusTask(screen))
-task_manager.add_task(RepairCurcuit(screen))
-task_manager.add_task(BallCollectTask(screen))
-task_manager.add_task(MatStackTask(screen))
-task_manager.add_task(TraySortingTask(screen))
-task_manager.add_task(MilkFillTask(screen))
-task_manager.add_task(PizzaCutTask(screen))
-task_manager.add_task(VendingMachineTask(screen))
-task_manager.add_task(BarcodeScanTask(screen))
-task_manager.add_task(LightBulbTask(screen))
-task_manager.add_task(LockerCleanTask(screen))
-task_manager.add_task(TrashDisposalTask(screen))
-task_manager.add_task(PipeLeakTask(screen))
+# Font für die Interaktionsanzeige in der Nähe von Buttons initialisieren
+proximity_font = pygame.font.SysFont("arial", 20, bold=True)
 
-task_buttons = [
-    # --- BIBLIOTHEK / KLASSENZIMMER ---
-    {"rect": pygame.Rect(100, 100, 60, 70), "type": "books"},            # BookSortTask
-    {"rect": pygame.Rect(200, 100, 50, 70), "type": "chair_stack"},     # ChairStackTask
-    {"rect": pygame.Rect(70, 250, 80, 80),  "type": "window"},          # WindowTask
-    {"rect": pygame.Rect(220, 250, 50, 60), "type": "pencil_case"},     # PencilCaseTask
-    {"rect": pygame.Rect(150, 380, 80, 50), "type": "board"},           # CleanBoardTask
-
-    # --- COMPUTERRAUM / BÜRO ---
-    {"rect": pygame.Rect(400, 100, 60, 50), "type": "pc_download"},     # DownloadDataTask (1)
-    {"rect": pygame.Rect(520, 100, 60, 50), "type": "pc_scan"},         # VirusScanTask
-    {"rect": pygame.Rect(400, 220, 60, 40), "type": "keyboard"},        # KeyboardCleanTask
-    {"rect": pygame.Rect(520, 220, 65, 60), "type": "printer"},         # PrinterPaperTask
-    {"rect": pygame.Rect(460, 340, 70, 50), "type": "projector"},       # ProjectorWiresTask
-    {"rect": pygame.Rect(410, 440, 60, 50), "type": "pc_download_2"},   # DownloadDataTask (2)
-
-    # --- PHYSIK / CHEMIE-LABOR ---
-    {"rect": pygame.Rect(750, 100, 40, 70), "type": "bunsen"},          # BunsenBurnerTask
-    {"rect": pygame.Rect(850, 100, 50, 65), "type": "chemical"},        # ChemicalMixTask
-    {"rect": pygame.Rect(750, 220, 45, 65), "type": "microscope"},      # MicroscopeFocusTask
-    {"rect": pygame.Rect(850, 220, 60, 60), "type": "circuit"},         # RepairCurcuit
-    {"rect": pygame.Rect(800, 340, 70, 40), "type": "pipe_leak"},       # PipeLeakTask
-
-    # --- SPORTHALLE ---
-    {"rect": pygame.Rect(100, 520, 60, 60), "type": "ball_basket"},     # BallCollectTask
-    {"rect": pygame.Rect(220, 530, 80, 45), "type": "mats"},            # MatStackTask
-
-    # --- KANTINE / FLUR ---
-    {"rect": pygame.Rect(420, 540, 70, 65), "type": "tray_sort"},       # TraySortingTask
-    {"rect": pygame.Rect(540, 540, 50, 65), "type": "milk_carton"},     # MilkFillTask
-    {"rect": pygame.Rect(640, 540, 60, 60), "type": "pizza"},           # PizzaCutTask
-    {"rect": pygame.Rect(760, 510, 65, 90), "type": "vending"},         # VendingMachineTask
-    {"rect": pygame.Rect(880, 540, 55, 60), "type": "barcode"},         # BarcodeScanTask
-
-    # --- WARTUNG / KELLER ---
-    {"rect": pygame.Rect(1020, 200, 45, 70), "type": "locker"},         # LockerCleanTask
-    {"rect": pygame.Rect(1020, 340, 50, 70), "type": "trash_bin"},       # TrashDisposalTask
-    {"rect": pygame.Rect(1020, 480, 40, 60), "type": "light_bulb"},      # LightBulbTask
+# 1. Alle Tasks ganz normal instanziieren
+tasks_instances = [
+    BookSortTask(screen),       # 0
+    ChairStackTask(screen),     # 1
+    WindowTask(screen),         # 2
+    DownloadDataTask(screen),   # 3
+    CleanBoardTask(screen),     # 4
+    DownloadDataTask(screen),   # 5
+    ProjectorWiresTask(screen), # 6
+    VirusScanTask(screen),      # 7
+    PrinterPaperTask(screen),   # 8
+    BunsenBurnerTask(screen),   # 9
+    ChemicalMixTask(screen),    # 10
+    PencilCaseTask(screen),     # 11
+    KeyboardCleanTask(screen),  # 12
+    MicroscopeFocusTask(screen),# 13
+    RepairCurcuit(screen),      # 14
+    BallCollectTask(screen),    # 15
+    MatStackTask(screen),       # 16
+    TraySortingTask(screen),    # 17
+    MilkFillTask(screen),       # 18
+    PizzaCutTask(screen),       # 19
+    VendingMachineTask(screen),  # 20
+    BarcodeScanTask(screen),    # 21
+    LightBulbTask(screen),      # 22
+    LockerCleanTask(screen),    # 23
+    TrashDisposalTask(screen),  # 24
+    PipeLeakTask(screen)        # 25
 ]
 
-def draw_task_buttons(screen, buttons):
+# 2. Dem Task-Manager die erstellten Tasks übergeben
+for t in tasks_instances:
+    task_manager.add_task(t)
+
+# 3. Die Buttonliste, verknüpft mit dem Index aus dem TaskManager und Grafik-Typen
+task_buttons = [
+    # --- BIBLIOTHEK / KLASSENZIMMER ---
+    {"rect": pygame.Rect(100, 100, 60, 70), "type": "books", "task_index": 0, "name": "Bücher sortieren"},
+    {"rect": pygame.Rect(200, 100, 50, 70), "type": "chair_stack", "task_index": 1, "name": "Stühle stapeln"},
+    {"rect": pygame.Rect(70, 250, 80, 80),  "type": "window", "task_index": 2, "name": "Fenster lüften"},
+    {"rect": pygame.Rect(220, 250, 50, 60), "type": "pencil_case", "task_index": 11, "name": "Mäppchen packen"},
+    {"rect": pygame.Rect(150, 380, 80, 50), "type": "board", "task_index": 4, "name": "Tafel wischen"},
+
+    # --- COMPUTERRAUM / BÜRO ---
+    {"rect": pygame.Rect(400, 100, 60, 50), "type": "pc_download", "task_index": 3, "name": "Daten downloaden"},
+    {"rect": pygame.Rect(520, 100, 60, 50), "type": "pc_scan", "task_index": 7, "name": "Virenscan"},
+    {"rect": pygame.Rect(400, 220, 60, 40), "type": "keyboard", "task_index": 12, "name": "Tastatur reinigen"},
+    {"rect": pygame.Rect(520, 220, 65, 60), "type": "printer", "task_index": 8, "name": "Druckerpapier auffüllen"},
+    {"rect": pygame.Rect(460, 340, 70, 50), "type": "projector", "task_index": 6, "name": "Beamer verkabeln"},
+    {"rect": pygame.Rect(410, 440, 60, 50), "type": "pc_download_2", "task_index": 5, "name": "Daten-Backup"},
+
+    # --- PHYSIK / CHEMIE-LABOR ---
+    {"rect": pygame.Rect(750, 100, 40, 70), "type": "bunsen", "task_index": 9, "name": "Bunsenbrenner einstellen"},
+    {"rect": pygame.Rect(850, 100, 50, 65), "type": "chemical", "task_index": 10, "name": "Chemikalien mischen"},
+    {"rect": pygame.Rect(750, 220, 45, 65), "type": "microscope", "task_index": 13, "name": "Mikroskop fokussieren"},
+    {"rect": pygame.Rect(850, 220, 60, 60), "type": "circuit", "task_index": 14, "name": "Schaltkreis reparieren"},
+    {"rect": pygame.Rect(800, 340, 70, 40), "type": "pipe_leak", "task_index": 25, "name": "Rohrbruch dichten"},
+
+    # --- SPORTHALLE ---
+    {"rect": pygame.Rect(100, 520, 60, 60), "type": "ball_basket", "task_index": 15, "name": "Bälle einsammeln"},
+    {"rect": pygame.Rect(220, 530, 80, 45), "type": "mats", "task_index": 16, "name": "Matten stapeln"},
+
+    # --- KANTINE / FLUR ---
+    {"rect": pygame.Rect(420, 540, 70, 65), "type": "tray_sort", "task_index": 17, "name": "Tabletts einsortieren"},
+    {"rect": pygame.Rect(540, 540, 50, 65), "type": "milk_carton", "task_index": 18, "name": "Milch ausschenken"},
+    {"rect": pygame.Rect(640, 540, 60, 60), "type": "pizza", "task_index": 19, "name": "Pizza schneiden"},
+    {"rect": pygame.Rect(760, 510, 65, 90), "type": "vending", "task_index": 20, "name": "Verklemmten Automaten rütteln"},
+    {"rect": pygame.Rect(880, 540, 55, 60), "type": "barcode", "task_index": 21, "name": "Barcodes scannen"},
+
+    # --- WARTUNG / KELLER ---
+    {"rect": pygame.Rect(1020, 200, 45, 70), "type": "locker", "task_index": 23, "name": "Spind aufräumen"},
+    {"rect": pygame.Rect(1020, 340, 50, 70), "type": "trash_bin", "task_index": 24, "name": "Müll wegbringen"},
+    {"rect": pygame.Rect(1020, 480, 40, 60), "type": "light_bulb", "task_index": 22, "name": "Glühbirne wechseln"},
+]
+
+def draw_task_buttons(screen, buttons, player_obj):
     for btn in buttons:
         r = btn["rect"]
         t = btn["type"]
         
-        # Optionale interaktive Hover-Hinterlegung (hellt auf, wenn die Maus drüber ist)
+        # --- HIER ERFOLGT DIE ABSTANDSPRÜFUNG ---
+        # Abstand zwischen der Mitte des Spielers und der Mitte des Buttons berechnen
+        player_center = (player_obj.x + PLAYER_SIZE // 2, player_obj.y + PLAYER_SIZE // 2)
+        button_center = r.center
+        distance = math.hypot(player_center[0] - button_center[0], player_center[1] - button_center[1])
+        
+        # Text-Indikator rendern, wenn man in der Nähe steht
+        if distance < 85:
+            # Ein dunkler Hintergrund für den Text, damit man ihn auf der Map sieht
+            lbl_text = proximity_font.render(f"[E] {btn['name']}", True, (255, 255, 255))
+            lbl_bg = pygame.Rect(button_center[0] - lbl_text.get_width() // 2 - 6, r.y - 32, lbl_text.get_width() + 12, 24)
+            pygame.draw.rect(screen, (20, 20, 20), lbl_bg, border_radius=4)
+            pygame.draw.rect(screen, (0, 220, 100), lbl_bg, width=1, border_radius=4) # Grüner Rand
+            screen.blit(lbl_text, (button_center[0] - lbl_text.get_width() // 2, r.y - 30))
+
+        # --- AB HIER FOLGT DAS VISUELLE DESIGN DER BUTTONS ---
+        # Optionaler Hover-Effekt per Maus
         mouse_pos = pygame.mouse.get_pos()
         if r.collidepoint(mouse_pos):
-            pygame.draw.rect(screen, (80, 80, 90), r.inflate(10, 10), border_radius=8)
+            pygame.draw.rect(screen, (60, 60, 70), r.inflate(8, 8), border_radius=8)
 
-        # 1. BÜCHERSORTIEREN (Drei farbige Buchrücken nebeneinander)
+        # 1. BÜCHERSORTIEREN
         if t == "books":
             pygame.draw.rect(screen, (200, 50, 50), (r.x, r.y, 18, r.height), border_radius=3)
             pygame.draw.rect(screen, (50, 120, 200), (r.x + 21, r.y + 10, 18, r.height - 10), border_radius=3)
             pygame.draw.rect(screen, (50, 180, 80), (r.x + 42, r.y + 5, 18, r.height - 5), border_radius=3)
 
-        # 2. STUHSTAPEL (Zwei ineinander geschobene Stühle)
+        # 2. STUHLSTAPEL
         elif t == "chair_stack":
             for offset in [0, 15]:
                 cy = r.y + offset
-                pygame.draw.rect(screen, (160, 100, 60), (r.x, cy + 20, r.width, 10)) # Sitzfläche
-                pygame.draw.rect(screen, (140, 80, 40), (r.x, cy, 8, 20)) # Lehne
-                pygame.draw.line(screen, (50, 50, 50), (r.x + 5, cy + 30), (r.x + 5, r.y + 65), 3) # Beine
+                pygame.draw.rect(screen, (160, 100, 60), (r.x, cy + 20, r.width, 10))
+                pygame.draw.rect(screen, (140, 80, 40), (r.x, cy, 8, 20))
+                pygame.draw.line(screen, (50, 50, 50), (r.x + 5, cy + 30), (r.x + 5, r.y + 65), 3)
                 pygame.draw.line(screen, (50, 50, 50), (r.x + r.width - 5, cy + 30), (r.x + r.width - 5, r.y + 65), 3)
 
         # 3. VENDING MACHINE (Der Snackautomat)
         elif t == "vending":
-            pygame.draw.rect(screen, (30, 40, 50), r, border_radius=5) # Korpus
-            pygame.draw.rect(screen, (100, 200, 255), (r.x + 8, r.y + 10, r.width - 16, 40)) # Glasscheibe
-            # Kleine rote Snackpunkte hinter der Scheibe
+            pygame.draw.rect(screen, (30, 40, 50), r, border_radius=5)
+            pygame.draw.rect(screen, (100, 200, 255), (r.x + 8, r.y + 10, r.width - 16, 40))
             pygame.draw.circle(screen, (230, 50, 50), (r.x + 18, r.y + 25), 4)
             pygame.draw.circle(screen, (230, 200, 50), (r.x + 32, r.y + 25), 4)
-            # Tastenfeld & Ausgabeschlitz
             pygame.draw.rect(screen, (200, 200, 200), (r.x + r.width - 12, r.y + 55, 6, 12)) 
             pygame.draw.rect(screen, (10, 10, 10), (r.x + 12, r.y + 72, r.width - 24, 12))
 
-        # 4. PC / DATA DOWNLOAD & SCAN (Monitor + Fortschritt/Warnung)
+        # 4. PC / DATA DOWNLOAD & SCANS
         elif t in ["pc_download", "pc_download_2", "pc_scan"]:
-            pygame.draw.rect(screen, (190, 195, 200), (r.x, r.y, r.width, r.height - 15), border_radius=4) # Bildschirm
-            pygame.draw.rect(screen, (20, 20, 20), (r.x + 4, r.y + 4, r.width - 8, r.height - 23)) # Display-Inhalt
-            pygame.draw.rect(screen, (130, 135, 140), (r.x + r.width//2 - 6, r.y + r.height - 15, 12, 15)) # Standfuss
+            pygame.draw.rect(screen, (190, 195, 200), (r.x, r.y, r.width, r.height - 15), border_radius=4)
+            pygame.draw.rect(screen, (20, 20, 20), (r.x + 4, r.y + 4, r.width - 8, r.height - 23))
+            pygame.draw.rect(screen, (130, 135, 140), (r.x + r.width//2 - 6, r.y + r.height - 15, 12, 15))
             if "download" in t:
-                # Grüner Ladebalken
                 pygame.draw.rect(screen, (0, 200, 50), (r.x + 10, r.y + 15, r.width - 20, 8))
             else:
-                # Rotes Warnkreuz für Virus-Scan
-                pygame.draw.line(screen, (220, 40, 40), (r.x + 20, r.y + 8), (r.x + r.width - 20, r.y + r.height - 20), 4)
-                pygame.draw.line(screen, (220, 40, 40), (r.x + r.width - 20, r.y + 8), (r.x + 20, r.y + r.height - 20), 4)
+                pygame.draw.line(screen, (220, 40, 40), (r.x + 15, r.y + 6), (r.x + r.width - 15, r.y + r.height - 25), 3)
+                pygame.draw.line(screen, (220, 40, 40), (r.x + r.width - 15, r.y + 6), (r.x + 15, r.y + r.height - 25), 3)
 
-        # 5. FENSTER (Blaues Kreuzfenster)
+        # 5. FENSTER
         elif t == "window":
             pygame.draw.rect(screen, (100, 180, 240), r)
-            pygame.draw.rect(screen, (240, 240, 240), r, width=4) # Rahmen
-            pygame.draw.line(screen, (240, 240, 240), (r.centerx, r.y), (r.centerx, r.bottom), 3) # Kreuz horizontal
-            pygame.draw.line(screen, (240, 240, 240), (r.x, r.centery), (r.right, r.centery), 3) # Kreuz vertikal
+            pygame.draw.rect(screen, (240, 240, 240), r, width=4)
+            pygame.draw.line(screen, (240, 240, 240), (r.centerx, r.y), (r.centerx, r.bottom), 3)
+            pygame.draw.line(screen, (240, 240, 240), (r.x, r.centery), (r.right, r.centery), 3)
 
-        # 6. TAFEL (Grüne Kreidetafel mit Holzrahmen)
+        # 6. TAFEL
         elif t == "board":
-            pygame.draw.rect(screen, (30, 90, 50), r) # Grün
-            pygame.draw.rect(screen, (139, 69, 19), r, width=4) # Holzrahmen
-            pygame.draw.line(screen, (255, 255, 255), (r.x + 15, r.y + 15), (r.x + 40, r.y + 20), 2) # Kreidewisch
+            pygame.draw.rect(screen, (30, 90, 50), r)
+            pygame.draw.rect(screen, (139, 69, 19), r, width=4)
+            pygame.draw.line(screen, (255, 255, 255), (r.x + 15, r.y + 15), (r.x + 40, r.y + 20), 2)
 
-        # 7. PROJEKTOR (Kasten an der Decke mit Lichtstrahl)
+        # 7. PROJEKTOR (Beamer)
         elif t == "projector":
             pygame.draw.rect(screen, (220, 220, 220), (r.x, r.y, r.width, r.height - 10), border_radius=3)
-            pygame.draw.circle(screen, (50, 50, 50), (r.right - 15, r.y + r.height // 2 - 5), 8) # Linse
-            # Angedeuteter Lichtkegel
+            pygame.draw.circle(screen, (50, 50, 50), (r.right - 15, r.y + r.height // 2 - 5), 8)
             pygame.draw.polygon(screen, (255, 255, 200), [(r.right - 10, r.y + 15), (r.right + 20, r.y - 5), (r.right + 20, r.y + 35)])
 
-        # 8. PRINTER (Grauer Kasten, der unten weißes Papier ausspuckt)
+        # 8. PRINTER
         elif t == "printer":
             pygame.draw.rect(screen, (100, 105, 110), (r.x, r.y, r.width, r.height - 15), border_top_left_radius=5, border_top_right_radius=5)
-            pygame.draw.rect(screen, (20, 20, 20), (r.x + 10, r.y + r.height - 20, r.width - 20, 6)) # Ausgabeschlitz
-            pygame.draw.rect(screen, (255, 255, 255), (r.x + 15, r.y + r.height - 15, r.width - 30, 15)) # Papier
+            pygame.draw.rect(screen, (20, 20, 20), (r.x + 10, r.y + r.height - 20, r.width - 20, 6))
+            pygame.draw.rect(screen, (255, 255, 255), (r.x + 15, r.y + r.height - 15, r.width - 30, 15))
 
-        # 9. BUNSENBRENNER (Blauer Standfuß mit animierter Flamme)
+        # 9. BUNSENBRENNER
         elif t == "bunsen":
-            pygame.draw.line(screen, (80, 80, 80), (r.centerx, r.y + 20), (r.centerx, r.bottom), 4) # Stab
-            pygame.draw.rect(screen, (50, 80, 200), (r.x, r.bottom - 12, r.width, 12), border_radius=3) # Standfuss
-            # Orangefarbene Flamme oben drauf
+            pygame.draw.line(screen, (80, 80, 80), (r.centerx, r.y + 20), (r.centerx, r.bottom), 4)
+            pygame.draw.rect(screen, (50, 80, 200), (r.x, r.bottom - 12, r.width, 12), border_radius=3)
             pygame.draw.polygon(screen, (255, 120, 0), [(r.centerx, r.y), (r.centerx - 10, r.y + 22), (r.centerx + 10, r.y + 22)])
 
-        # 10. CHEMIE-KOLBEN (Glaskolben mit farbiger Flüssigkeit)
+        # 10. CHEMIE-KOLBEN
         elif t == "chemical":
-            # Hals des Kolbens
             pygame.draw.rect(screen, (200, 220, 240), (r.centerx - 6, r.y, 12, 30))
-            # Runder Bauch
             pygame.draw.circle(screen, (200, 220, 240), (r.centerx, r.y + r.height - 22), 22)
-            # Flüssigkeit im Bauch (Lila)
             pygame.draw.circle(screen, (150, 50, 200), (r.centerx, r.y + r.height - 20), 16)
 
-        # 11. FEDERMAPPE (Reißverschluss-Etui)
+        # 11. FEDERMAPPE
         elif t == "pencil_case":
-            pygame.draw.rect(screen, (210, 90, 150), r, border_radius=8) # Mäppchenkörper
-            pygame.draw.line(screen, (50, 50, 50), (r.x, r.centery), (r.right, r.centery), 3) # Reißverschluss
+            pygame.draw.rect(screen, (210, 90, 150), r, border_radius=8)
+            pygame.draw.line(screen, (50, 50, 50), (r.x, r.centery), (r.right, r.centery), 3)
 
         # 12. TASTATUR
         elif t == "keyboard":
             pygame.draw.rect(screen, (40, 40, 40), r, border_radius=4)
-            # Kleine Tastenreihen andeuten
             for i in range(3):
                 pygame.draw.line(screen, (200, 200, 200), (r.x + 5, r.y + 8 + i*10), (r.right - 5, r.y + 8 + i*10), 2)
 
         # 13. MIKROSKOP
         elif t == "microscope":
-            pygame.draw.rect(screen, (40, 40, 45), (r.x + 5, r.bottom - 10, r.width - 10, 10)) # Basis
-            pygame.draw.line(screen, (100, 100, 100), (r.x + 10, r.bottom - 10), (r.x + 10, r.y + 15), 5) # Gelenkarm
-            pygame.draw.rect(screen, (200, 200, 200), (r.x + 12, r.y + 10, 14, 25)) # Lichttubus
+            pygame.draw.rect(screen, (40, 40, 45), (r.x + 5, r.bottom - 10, r.width - 10, 10))
+            pygame.draw.line(screen, (100, 100, 100), (r.x + 10, r.bottom - 10), (r.x + 10, r.y + 15), 5)
+            pygame.draw.rect(screen, (200, 200, 200), (r.x + 12, r.y + 10, 14, 25))
 
-        # 14. SCHALTKREIS (Grüne Platine mit silbernen Leiterbahnen)
+        # 14. SCHALTKREIS
         elif t == "circuit":
             pygame.draw.rect(screen, (20, 120, 60), r, border_radius=4)
             pygame.draw.line(screen, (200, 200, 200), (r.x + 10, r.y + 10), (r.x + 30, r.y + 30), 3)
-            pygame.draw.line(screen, (200, 200, 200), (r.x + 30, r.y + 30), (r.right - 10, r.y + 30), 3)
-            pygame.draw.circle(screen, (220, 220, 50), (r.x + 10, r.y + 10), 5) # Lötpunkt
+            pygame.draw.circle(screen, (220, 220, 50), (r.x + 10, r.y + 10), 5)
 
-        # 15. BALLKORB (Turnhalle)
+        # 15. BALLKORB
         elif t == "ball_basket":
-            pygame.draw.rect(screen, (210, 140, 60), r, width=3, border_radius=2) # Korbgerüst
-            # Orangefarbene Basketbälle im Korb
+            pygame.draw.rect(screen, (210, 140, 60), r, width=3, border_radius=2)
             pygame.draw.circle(screen, (230, 90, 20), (r.x + 20, r.y + 40), 12)
             pygame.draw.circle(screen, (230, 90, 20), (r.x + 40, r.y + 35), 12)
 
-        # 16. MATTENSTAPEL (Blaue Turnmatten übereinander)
+        # 16. MATTENSTAPEL
         elif t == "mats":
             for i in range(3):
                 pygame.draw.rect(screen, (30, 90, 180), (r.x, r.y + i*13, r.width, 10), border_radius=2)
 
-        # 17. TABLETT-WAGEN / SORTIERUNG
+        # 17. TABLETT-WAGEN
         elif t == "tray_sort":
-            pygame.draw.rect(screen, (150, 155, 160), r, width=3) # Wagenrahmen
-            # Eingeschobene Tabletts
+            pygame.draw.rect(screen, (150, 155, 160), r, width=3)
             pygame.draw.line(screen, (180, 50, 50), (r.x + 5, r.y + 15), (r.right - 5, r.y + 15), 4)
             pygame.draw.line(screen, (50, 150, 50), (r.x + 5, r.y + 35), (r.right - 5, r.y + 35), 4)
 
         # 18. MILCHTÜTE
         elif t == "milk_carton":
-            pygame.draw.rect(screen, (240, 240, 240), (r.x, r.y + 15, r.width, r.height - 15)) # Körper
-            pygame.draw.polygon(screen, (100, 150, 220), [(r.x, r.y + 15), (r.centerx, r.y), (r.right, r.y + 15)]) # Giebeldach
-            pygame.draw.rect(screen, (100, 150, 220), (r.x, r.y + 30, r.width, 12)) # Blaues Design-Band
+            pygame.draw.rect(screen, (240, 240, 240), (r.x, r.y + 15, r.width, r.height - 15))
+            pygame.draw.polygon(screen, (100, 150, 220), [(r.x, r.y + 15), (r.centerx, r.y), (r.right, r.y + 15)])
+            pygame.draw.rect(screen, (100, 150, 220), (r.x, r.y + 30, r.width, 12))
 
         # 19. PIZZA
         elif t == "pizza":
-            pygame.draw.circle(screen, (220, 160, 60), r.center, r.width // 2) # Teig
-            pygame.draw.circle(screen, (200, 40, 40), r.center, r.width // 2 - 4) # Sauce
-            # Salami-Punkte
+            pygame.draw.circle(screen, (220, 160, 60), r.center, r.width // 2)
+            pygame.draw.circle(screen, (200, 40, 40), r.center, r.width // 2 - 4)
             pygame.draw.circle(screen, (130, 20, 20), (r.centerx - 10, r.centery - 5), 5)
-            pygame.draw.circle(screen, (130, 20, 20), (r.centerx + 10, r.centery + 10), 5)
 
         # 20. BARCODE-SCANNER
         elif t == "barcode":
-            pygame.draw.rect(screen, (30, 30, 30), (r.x + 15, r.y, r.width - 30, r.height)) # Griff
-            pygame.draw.rect(screen, (60, 65, 70), (r.x, r.y, r.width, 22), border_radius=4) # Laserkopf
-            pygame.draw.line(screen, (255, 0, 0), (r.x + 5, r.y + 11), (r.right - 5, r.y + 11), 2) # Roter Laser
+            pygame.draw.rect(screen, (30, 30, 30), (r.x + 15, r.y, r.width - 30, r.height))
+            pygame.draw.rect(screen, (60, 65, 70), (r.x, r.y, r.width, 22), border_radius=4)
+            pygame.draw.line(screen, (255, 0, 0), (r.x + 5, r.y + 11), (r.right - 5, r.y + 11), 2)
 
-        # 21. SPIND (Locker)
+        # 21. SPIND
         elif t == "locker":
             pygame.draw.rect(screen, (120, 130, 140), r, border_radius=2)
             pygame.draw.rect(screen, (80, 90, 100), (r.x + 5, r.y + 5, r.width - 10, r.height - 10))
-            pygame.draw.line(screen, (20, 20, 20), (r.right - 12, r.y + r.height // 2 - 8), (r.right - 12, r.y + r.height // 2 + 8), 3) # Griff
+            pygame.draw.line(screen, (20, 20, 20), (r.right - 12, r.y + r.height // 2 - 8), (r.right - 12, r.y + r.height // 2 + 8), 3)
 
         # 22. MÜLLTONNE
         elif t == "trash_bin":
             pygame.draw.polygon(screen, (50, 50, 50), [(r.x + 8, r.bottom), (r.right - 8, r.bottom), (r.right, r.y + 15), (r.x, r.y + 15)])
-            pygame.draw.rect(screen, (70, 70, 70), (r.x - 4, r.y, r.width + 8, 15), border_radius=3) # Deckel
+            pygame.draw.rect(screen, (70, 70, 70), (r.x - 4, r.y, r.width + 8, 15), border_radius=3)
 
         # 23. GLÜHBIRNE
         elif t == "light_bulb":
-            pygame.draw.circle(screen, (255, 220, 50), (r.centerx, r.y + 20), 18) # Glas
-            pygame.draw.rect(screen, (150, 150, 150), (r.centerx - 8, r.y + 35, 16, 15)) # Gewinde
+            pygame.draw.circle(screen, (255, 220, 50), (r.centerx, r.y + 20), 18)
+            pygame.draw.rect(screen, (150, 150, 150), (r.centerx - 8, r.y + 35, 16, 15))
 
         # 24. ROHR / WASSERLECK
         elif t == "pipe_leak":
             pygame.draw.rect(screen, (100, 100, 100), r)
-            # Spritzendes Wasser-Pixel-Viereck
             pygame.draw.rect(screen, (50, 150, 255), (r.centerx - 5, r.y - 15, 10, 15))
 
-        # Schwarze Konturlinie um jeden Button für besseren Kontrast
+        # Rahmen um den Button
         pygame.draw.rect(screen, (20, 20, 20), r, width=2, border_radius=4)
-
-font = pygame.font.SysFont("arial", 30)
 
 font = pygame.font.SysFont("arial", 40)
 
@@ -8179,7 +8188,8 @@ while running:
     my_player.draw(screen)
 
     # Buttons 
-    draw_task_buttons(screen, task_buttons)
+    if task_manager.active_task is None:
+        draw_task_buttons(screen, task_buttons, my_player)
 
     # draw & update task
     task_manager.draw(screen)
