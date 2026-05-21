@@ -5,8 +5,8 @@
     },
     "activeFile": "Map.tmx",
     "expandedProjectPaths": [
-        ".",
-        "Kachelsätze"
+        "Kachelsätze",
+        "."
     ],
     "file.lastUsedOpenFilter": "Alle Dateien (*)",
     "fileStates": {
@@ -43,11 +43,11 @@
             "scaleInEditor": 1
         },
         "Map.tmx": {
-            "scale": 1,
+            "scale": 0.25,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 746.5,
-                "y": 341
+                "x": 1542,
+                "y": 392
             }
         },
         "strokespritesheet20121.tsx": {
