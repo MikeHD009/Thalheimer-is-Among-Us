@@ -212,15 +212,15 @@ def receive_data(sock):
             elif packet_type == 2:
                 data = b""
 
-                while len(data) < 9:
-                    packet = sock.recv(9 - len(data))
+                while len(data) < 10:
+                    packet = sock.recv(10 - len(data))
 
                     if not packet:
                         return
 
                     data += packet
 
-                p_id, x, y = struct.unpack("!Bii", data)
+                _, p_id, x, y = struct.unpack("!Bii", data)
 
                 if x == -1000 and y == -1000:
                     if p_id in other_players:
@@ -238,14 +238,6 @@ def receive_data(sock):
 
 # Verbindung zum zentralen Server herstellen
 ip = input("Server IP eingeben: ")
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect((ip, PORT))
-setup_socket(sock)
-
-# Als allererstes sendet uns der Server unsere eigene ID (1 Byte)
-my_id = struct.unpack('!B', sock.recv(1))[0]
-print(f"Erfolgreich verbunden! Deine Spieler-ID ist: {my_id}")
-
 name = input("Dein Name: ")
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -256,6 +248,11 @@ setup_socket(sock)
 name_data = name.encode()
 sock.sendall(struct.pack("!B", len(name_data)))
 sock.sendall(name_data)
+
+# Eigene ID empfangen
+my_id = struct.unpack('!B', sock.recv(1))[0]
+
+print(f"Erfolgreich verbunden! Deine Spieler-ID ist: {my_id}")
 
 # Eigenen Spieler erstellen (Farbe basiert auf der ID)
 my_player = Player(100 + (my_id * 30), 100, player_images[my_id % len(player_images)])
@@ -622,7 +619,7 @@ while running:
         # Host Anzeige
         host_text = font.render(f"Host: {player_names.get(host_id, '')}", True, (255,255,0))
         screen.blit(host_text, (50,170))
-        
+
         # Nur Host sieht Button
         if my_id == host_id:
             start_button.draw(screen)

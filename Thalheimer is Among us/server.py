@@ -153,7 +153,7 @@ def start_server():
         
         # 2. Dem neuen Client die Positionen aller bereits existierenden Spieler schicken
         for existing_id, pos in player_positions.items():
-            conn.sendall(struct.pack('!Bii', existing_id, pos[0], pos[1]))
+            conn.sendall(struct.pack('!BBii', 2, existing_id, pos[0], pos[1]))
 
         clients[player_id_counter] = conn
         send_lobby_update()
