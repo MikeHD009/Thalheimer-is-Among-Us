@@ -7,12 +7,11 @@ import math
 # Tasks
 # =========================
 class TaskManager:
-    def __init__(self, width):
+    def __init__(self):
         self.tasks = []
         self.active_task = None
         self.message = ""
         self.message_timer = 0
-        WIDTH = width
 
     def add_task(self, task):
         self.tasks.append(task)
