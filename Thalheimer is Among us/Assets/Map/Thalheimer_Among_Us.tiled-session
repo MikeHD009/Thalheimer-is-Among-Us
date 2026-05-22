@@ -20,7 +20,7 @@
         },
         "Kachelsätze/4 BigSet.tsx": {
             "scaleInDock": 4,
-            "scaleInEditor": 1
+            "scaleInEditor": 2
         },
         "Kachelsätze/Classroom_A2.tsx": {
             "scaleInDock": 4,
@@ -43,11 +43,11 @@
             "scaleInEditor": 1
         },
         "Map.tmx": {
-            "scale": 0.25,
-            "selectedLayer": 0,
+            "scale": 0.33,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 1542,
-                "y": 392
+                "x": 434.848484848485,
+                "y": 906.060606060606
             }
         },
         "strokespritesheet20121.tsx": {
