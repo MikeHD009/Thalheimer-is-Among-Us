@@ -260,10 +260,12 @@ my_player = Player(100 + (my_id * 30), 100, player_images[my_id % len(player_ima
 # Thread starten
 threading.Thread(target = receive_data, args=(sock,), daemon = True).start()
 
+# Startposition sofort senden
+sock.sendall(struct.pack('!Bii', 2, int(my_player.x), int(my_player.y)))
+
 # ===================
 # TASK SYSTEM
 # ===================
-
 task_manager = tasks.TaskManager()
 
 # Font für die Interaktionsanzeige in der Nähe von Buttons initialisieren
@@ -555,9 +557,9 @@ while running:
             mouse_pos = pygame.mouse.get_pos()
 
             if not game_started:
-                if my_id == host_id:
-                    if start_button.clicked(event.pos):
-                        sock.sendall(struct.pack("!B", 99))
+                if my_id == host_id and start_button.clicked(event.pos):
+                    sock.sendall(struct.pack("!B", 99))
+                continue
 
             for btn in task_buttons:
                 # Hier greifen wir korrekt auf das .rect des Spielers und des Buttons zu:

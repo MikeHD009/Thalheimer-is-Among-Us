@@ -87,7 +87,8 @@ def handle_client(conn, player_id):
             if packet_type == 99:
                 if player_id == host_id:
                     print("Spiel gestartet!")
-                    broadcast_to_all(struct.pack("!B", 3))
+                    for conn in clients.values():
+                        conn.sendall(struct.pack("!B", 3))
 
             # =========================
             # POSITIONSDATEN
@@ -110,6 +111,10 @@ def handle_client(conn, player_id):
                 player_positions[player_id] = (x, y)
                 update_packet = struct.pack("!BBii", 2, player_id, x, y)
                 broadcast_to_all(update_packet, exclude_id = player_id)
+
+                for other_id, pos in player_positions.items():
+                    if other_id != player_id:
+                        conn.sendall(struct.pack("!BBii", 2, other_id, pos[0], pos[1]))
 
         except:
             break
