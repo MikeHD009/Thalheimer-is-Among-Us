@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Map.tmx",
+    "activeFile": "Kachelsätze/jdt.tsx",
     "expandedProjectPaths": [
         "Kachelsätze",
         "."
@@ -46,7 +46,7 @@
         "Kachelsätze/jdt.tsx": {
             "dynamicWrapping": true,
             "scaleInDock": 1,
-            "scaleInEditor": 1
+            "scaleInEditor": 2
         },
         "Kachelsätze/swsdcf.tsx": {
             "dynamicWrapping": true,
@@ -54,11 +54,11 @@
             "scaleInEditor": 1
         },
         "Map.tmx": {
-            "scale": 1,
-            "selectedLayer": 3,
+            "scale": 0.5,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 628,
-                "y": 493
+                "x": 988,
+                "y": 704
             }
         },
         "strokespritesheet20121.tsx": {
@@ -66,7 +66,7 @@
             "scaleInEditor": 1
         }
     },
-    "last.imagePath": "C:/Users/leand/Desktop/Python/Freizeit/ThalheimerIsAmongUs/Thalheimer-is-Among-Us/Thalheimer is Among us/Assets/Map/Map Assets",
+    "last.imagePath": "C:/Users/leand/Desktop/Python/Freizeit/ThalheimerIsAmongUs/Thalheimer-is-Among-Us/Thalheimer is Among us/Assets/Map/Map Assets/Objects",
     "map.height": 100,
     "map.lastUsedFormat": "tmx",
     "map.tileHeight": 24,
@@ -79,9 +79,9 @@
     ],
     "project": "Thalheimer_Among_Us.tiled-project",
     "recentFiles": [
-        "Kachelsätze/jdt.tsx",
-        "Kachelsätze/4 BigSet.tsx",
         "Map.tmx",
+        "Kachelsätze/4 BigSet.tsx",
+        "Kachelsätze/jdt.tsx",
         "Kachelsätze/swsdcf.tsx",
         "Kachelsätze/Classroom_A4.tsx",
         "Kachelsätze/Classroom_A2.tsx",
