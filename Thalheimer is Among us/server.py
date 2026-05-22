@@ -66,7 +66,7 @@ def disconnect_client(player_id):
     if player_id in player_positions:
         del player_positions[player_id]
         # Ein "Disconnect-Paket" an alle senden (z.B. X und Y auf -1000 setzen)
-        disconnect_packet = struct.pack('!BBii', 2, player_id, -1000, -1000)
+        disconnect_packet = struct.pack('!BBii', player_id, -1000, -1000)
         broadcast_to_all(disconnect_packet)
 
     send_lobby_update()
@@ -109,12 +109,12 @@ def handle_client(conn, player_id):
 
                 x, y = struct.unpack("!ii", data)
                 player_positions[player_id] = (x, y)
-                update_packet = struct.pack("!BBii", 2, player_id, x, y)
+                update_packet = struct.pack("!BBii", player_id, x, y)
                 broadcast_to_all(update_packet, exclude_id = player_id)
 
                 for other_id, pos in player_positions.items():
                     if other_id != player_id:
-                        conn.sendall(struct.pack("!BBii", 2, other_id, pos[0], pos[1]))
+                        conn.sendall(struct.pack("!BBii", other_id, pos[0], pos[1]))
 
         except:
             break
