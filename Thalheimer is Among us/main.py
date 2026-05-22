@@ -172,6 +172,10 @@ class TextInput:
 # Speichert alle ANDEREN Spieler: {player_id: [x, y]}
 other_players = {}
 my_id = None
+player_names = {}
+player_count = 0
+host_id = 0
+game_started = False
 
 def setup_socket(s):
     # TCP_NODELAY sorgt dafür, dass Positionsdaten ohne Verzögerung 
@@ -179,26 +183,56 @@ def setup_socket(s):
     s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
 
 def receive_data(sock):
+
     global other_players
+    global player_names
+    global player_count
+    global host_id
+    global game_started
+
     while True:
         try:
-            # Ein Paket vom Server ist 9 Bytes lang (!Bii)
-            data = b""
-            while len(data) < 9:
-                packet = sock.recv(9 - len(data))
-                if not packet:
-                    return
-                data += packet
+            packet_type = struct.unpack("!B", sock.recv(1))[0]
+            # =========================
+            # LOBBY UPDATE
+            # =========================
+            if packet_type == 1:
+                player_count, host_id = struct.unpack("!BB", sock.recv(2))
+                player_names.clear()
 
-            p_id, x, y = struct.unpack('!Bii', data)
-            
-            if x == -1000 and y == -1000:
-                # Spieler hat das Spiel verlassen
-                if p_id in other_players:
-                    del other_players[p_id]
-            else:
-                # Position aktualisieren oder neuen Spieler hinzufügen
-                other_players[p_id] = [x, y]
+                for _ in range(player_count):
+                    p_id = struct.unpack("!B", sock.recv(1))[0]
+                    name_length = struct.unpack("!B", sock.recv(1))[0]
+                    pname = sock.recv(name_length).decode()
+                    player_names[p_id] = pname
+
+            # =========================
+            # POSITION UPDATE
+            # =========================
+            elif packet_type == 2:
+                data = b""
+
+                while len(data) < 9:
+                    packet = sock.recv(9 - len(data))
+
+                    if not packet:
+                        return
+
+                    data += packet
+
+                p_id, x, y = struct.unpack("!Bii", data)
+
+                if x == -1000 and y == -1000:
+                    if p_id in other_players:
+                        del other_players[p_id]
+                else:
+                    other_players[p_id] = [x, y]
+
+            # =========================
+            # SPIEL STARTET
+            # =========================
+            elif packet_type == 3:
+                game_started = True
         except:
             break
 
@@ -211,6 +245,17 @@ setup_socket(sock)
 # Als allererstes sendet uns der Server unsere eigene ID (1 Byte)
 my_id = struct.unpack('!B', sock.recv(1))[0]
 print(f"Erfolgreich verbunden! Deine Spieler-ID ist: {my_id}")
+
+name = input("Dein Name: ")
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.connect((ip, PORT))
+setup_socket(sock)
+
+# Namen senden
+name_data = name.encode()
+sock.sendall(struct.pack("!B", len(name_data)))
+sock.sendall(name_data)
 
 # Eigenen Spieler erstellen (Farbe basiert auf der ID)
 my_player = Player(100 + (my_id * 30), 100, player_images[my_id % len(player_images)])
@@ -462,6 +507,8 @@ def draw_task_buttons(screen, buttons, player_obj):
 
 font = pygame.font.SysFont("arial", 40)
 
+start_button = Button(WIDTH // 2 - 150, HEIGHT - 150, 300, 80, "SPIEL STARTEN", font)
+
 # ===================
 # Spielschleife
 # ===================
@@ -510,6 +557,11 @@ while running:
 
             mouse_pos = pygame.mouse.get_pos()
 
+            if not game_started:
+                if my_id == host_id:
+                    if start_button.clicked(event.pos):
+                        sock.sendall(struct.pack("!B", 99))
+
             for btn in task_buttons:
                 # Hier greifen wir korrekt auf das .rect des Spielers und des Buttons zu:
                 player_center = my_player.rect.center
@@ -533,7 +585,7 @@ while running:
     # Bewegung
     has_moved = False
 
-    if task_manager.active_task is None:
+    if task_manager.active_task is None and game_started:
 
         has_moved = my_player.move(
             keys,   
@@ -544,7 +596,7 @@ while running:
     # Netzwerk senden
     if has_moved:
         try:
-            data = struct.pack('!ii', int(my_player.x), int(my_player.y))
+            data = struct.pack('!Bii', 2, int(my_player.x), int(my_player.y))
             sock.sendall(data)
         except Exception as e:
             print(f"Verbindung verloren: {e}")
@@ -554,6 +606,29 @@ while running:
     # Zeichnen
     # =========================
     screen.fill((30, 30, 30))
+
+    if not game_started:
+        title = font.render("LOBBY", True, (255,255,255))
+        screen.blit(title, (WIDTH//2 - 80, 40))
+        info = font.render(f"Spieler: {player_count}", True, (255,255,255))
+        screen.blit(info, (50,120))
+        y = 220
+
+        for pid, pname in player_names.items():
+            text = font.render(pname, True, (255,255,255))
+            screen.blit(text, (100, y))
+            y += 60
+
+        # Host Anzeige
+        host_text = font.render(f"Host: {player_names.get(host_id, '')}", True, (255,255,0))
+        screen.blit(host_text, (50,170))
+        
+        # Nur Host sieht Button
+        if my_id == host_id:
+            start_button.draw(screen)
+
+        pygame.display.update()
+        continue
 
     # Wände
     for wall in walls:
@@ -573,7 +648,7 @@ while running:
     my_player.draw(screen)
 
     # Buttons 
-    if task_manager.active_task is None:
+    if task_manager.active_task is None and game_started:
         draw_task_buttons(screen, task_buttons, my_player)
 
     # draw & update task

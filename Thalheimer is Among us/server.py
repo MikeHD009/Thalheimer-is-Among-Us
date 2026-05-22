@@ -10,6 +10,44 @@ clients = {}
 # Speichert die aktuellen Positionen: {player_id: (x, y)}
 player_positions = {}
 
+player_names = {}
+game_started = False
+host_id = 0
+
+def send_lobby_update():
+
+    player_count = len(clients)
+
+    for pid, conn in clients.items():
+
+        try:
+
+            # Packet Typ 1
+            conn.sendall(
+                struct.pack(
+                    "!BBB",
+                    1,
+                    player_count,
+                    host_id
+                )
+            )
+
+            for other_id, pname in player_names.items():
+
+                name_bytes = pname.encode()
+
+                conn.sendall(
+                    struct.pack(
+                        f"!BB{len(name_bytes)}s",
+                        other_id,
+                        len(name_bytes),
+                        name_bytes
+                    )
+                )
+
+        except:
+            pass
+
 def broadcast_to_all(data, exclude_id = None):
     """Sendet Daten an alle verbundenen Spieler."""
     for player_id, conn in list(clients.items()):
@@ -28,8 +66,10 @@ def disconnect_client(player_id):
     if player_id in player_positions:
         del player_positions[player_id]
         # Ein "Disconnect-Paket" an alle senden (z.B. X und Y auf -1000 setzen)
-        disconnect_packet = struct.pack('!Bii', player_id, -1000, -1000)
+        disconnect_packet = struct.pack('!BBii', 2, player_id, -1000, -1000)
         broadcast_to_all(disconnect_packet)
+
+    send_lobby_update()
 
 def handle_client(conn, player_id):
     global player_positions
@@ -40,23 +80,36 @@ def handle_client(conn, player_id):
 
     while True:
         try:
-            # Client sendet 8 Bytes (!ii)
-            data = b""
-            while len(data) < 8:
-                packet = conn.recv(8 - len(data))
-                if not packet:
+            packet_type = struct.unpack("!B", conn.recv(1))[0]
+            # =========================
+            # SPIEL STARTEN
+            # =========================
+            if packet_type == 99:
+                if player_id == host_id:
+                    print("Spiel gestartet!")
+                    broadcast_to_all(struct.pack("!B", 3))
+
+            # =========================
+            # POSITIONSDATEN
+            # =========================
+            elif packet_type == 2:
+                data = b""
+
+                while len(data) < 8:
+                    packet = conn.recv(8 - len(data))
+
+                    if not packet:
+                        break
+
+                    data += packet
+
+                if len(data) < 8:
                     break
-                data += packet
-            
-            if not data or len(data) < 8:
-                break
 
-            x, y = struct.unpack('!ii', data)
-            player_positions[player_id] = (x, y)
-
-            # Paket für alle anderen bauen: ID + X + Y (9 Bytes)
-            update_packet = struct.pack('!Bii', player_id, x, y)
-            broadcast_to_all(update_packet, exclude_id=player_id)
+                x, y = struct.unpack("!ii", data)
+                player_positions[player_id] = (x, y)
+                update_packet = struct.pack("!BBii", 2, player_id, x, y)
+                broadcast_to_all(update_packet, exclude_id = player_id)
 
         except:
             break
@@ -82,11 +135,18 @@ def start_server():
 
     while True:
         conn, addr = server.accept()
+
         if len(clients) >= MAX_PLAYERS:
             conn.close() # Server voll
             continue
 
         print(f"Neuer Spieler verbunden von: {addr} -> Erhält ID: {player_id_counter}")
+
+        # Namen empfangen
+        name_length = struct.unpack("!B", conn.recv(1))[0]
+        player_name = conn.recv(name_length).decode()
+
+        player_names[player_id_counter] = player_name
         
         # 1. Dem Client seine eigene ID schicken, damit er weiß, wer er ist
         conn.sendall(struct.pack('!B', player_id_counter))
@@ -96,9 +156,10 @@ def start_server():
             conn.sendall(struct.pack('!Bii', existing_id, pos[0], pos[1]))
 
         clients[player_id_counter] = conn
+        send_lobby_update()
         
         # Thread für diesen Spieler starten
-        threading.Thread(target=handle_client, args=(conn, player_id_counter), daemon=True).start()
+        threading.Thread(target = handle_client, args = (conn, player_id_counter), daemon = True).start()
         player_id_counter += 1
 
 if __name__ == "__main__":
