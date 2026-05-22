@@ -26,17 +26,17 @@ clock = pygame.time.Clock()
 # =========================
 # Bilder laden
 # =========================
-PLAYER_COLORS = ["lime", "banana", "red", "blue", "green", "pink", "orange", "yellow", "black", "white", "purple", "brown", "cyan", "maroon", "rose"]
+PLAYER_COLORS = ["lime", "banana", "red", "blue", "green", "orange", "yellow", "black", "white", "purple", "brown", "cyan", "maroon", "rose", "coral"]
 player_images = {}
 
 # Hier laden wir einfach alle verfügbaren Assets (du musst schauen, wie sie in deinem Ordner heißen)
 for i, color in enumerate(PLAYER_COLORS):
     try:
-        img = pygame.image.load(f"Thalheimer is Among us/Assets/Character/All_colors/{color}.png").convert_alpha()
+        img = pygame.image.load(f"Assets/Character/All_colors/{color}.png").convert_alpha()
         player_images[i] = pygame.transform.scale(img, (PLAYER_SIZE, PLAYER_SIZE))
     except:
         # Fallback, falls eine Farbe fehlt, nimm die erste
-        img = pygame.image.load("Thalheimer is Among us/Assets/Character/All_colors/lime.png").convert_alpha()
+        img = pygame.image.load("Assets/Character/All_colors/lime.png").convert_alpha()
         player_images[i] = pygame.transform.scale(img, (PLAYER_SIZE, PLAYER_SIZE))
 
 # =========================
