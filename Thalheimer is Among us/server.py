@@ -61,15 +61,22 @@ def handle_client(conn, player_id):
 
     while True:
         try:
-            packet_type = struct.unpack("!B", conn.recv(1))[0]
+            data = conn.recv(1)
+            if not data:
+                break
+
+            packet_type = struct.unpack("!B", data)[0]
             # =========================
             # SPIEL STARTEN
             # =========================
             if packet_type == 99:
                 if player_id == host_id:
                     print("Spiel gestartet!")
-                    for conn in clients.values():
-                        conn.sendall(struct.pack("!B", 3))
+                    for pid, conn in list(clients.items()):
+                        try:
+                            conn.sendall(struct.pack("!B", 3))
+                        except:
+                            disconnect_client(pid)
 
             # =========================
             # POSITIONSDATEN

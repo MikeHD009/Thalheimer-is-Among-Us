@@ -192,7 +192,11 @@ def receive_data(sock):
 
     while True:
         try:
-            packet_type = struct.unpack("!B", sock.recv(1))[0]
+            data = sock.recv(1)
+            if not data:
+                return
+
+            packet_type = struct.unpack("!B", data)[0]
             # =========================
             # LOBBY UPDATE
             # =========================
