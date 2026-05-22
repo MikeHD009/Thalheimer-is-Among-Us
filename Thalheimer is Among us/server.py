@@ -53,7 +53,7 @@ def disconnect_client(player_id):
     send_lobby_update()
 
 def handle_client(conn, player_id):
-    global player_positions
+    global player_positions, game_started, host_id
     print(f"Thread für Spieler {player_id} gestartet.")
     
     # Aktiviert TCP_NODELAY für minimale Verzögerung
@@ -73,6 +73,7 @@ def handle_client(conn, player_id):
                 if player_id == host_id and not game_started:
                     game_started = True
                     print("Spiel gestartet!")
+                    print("START PACKET erhalten von:", player_id)
 
                     for pid, conn in list(clients.items()):
                         try:

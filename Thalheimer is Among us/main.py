@@ -193,8 +193,11 @@ def receive_data(sock):
     while True:
         try:
             data = sock.recv(1)
-            if not data:
-                return
+            while len(data) < 1:
+                more = sock.recv(1)
+                if not more:
+                    return
+                data += more
 
             packet_type = struct.unpack("!B", data)[0]
             # =========================
@@ -237,6 +240,7 @@ def receive_data(sock):
             # =========================
             elif packet_type == 3:
                 game_started = True
+                print("START empfangen")
 
             # =========================
             # Disconnect
@@ -569,7 +573,7 @@ while running:
             mouse_pos = pygame.mouse.get_pos()
 
             if not game_started:
-                if my_id == host_id and start_button.clicked(event.pos):
+                if my_id == host_id and start_button.clicked(mouse_pos):
                     sock.sendall(struct.pack("!B", 99))
                 continue
 
