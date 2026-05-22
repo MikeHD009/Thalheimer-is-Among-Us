@@ -66,6 +66,7 @@ def handle_client(conn, player_id):
                 break
 
             packet_type = struct.unpack("!B", data)[0]
+            print("Packet empfangen:", packet_type, "von", player_id)
             # =========================
             # SPIEL STARTEN
             # =========================
@@ -73,7 +74,6 @@ def handle_client(conn, player_id):
                 if player_id == host_id and not game_started:
                     game_started = True
                     print("Spiel gestartet!")
-                    print("START PACKET erhalten von:", player_id)
 
                     for pid, conn in list(clients.items()):
                         try:
@@ -87,15 +87,15 @@ def handle_client(conn, player_id):
             elif packet_type == 2:
                 data = b""
 
-                while len(data) < 10:
-                    packet = conn.recv(10 - len(data))
+                while len(data) < 9:
+                    packet = conn.recv(9 - len(data))
 
                     if not packet:
                         break
 
                     data += packet
 
-                if len(data) < 10:
+                if len(data) < 9:
                     break
 
                 x, y = struct.unpack("!ii", data)

@@ -219,8 +219,8 @@ def receive_data(sock):
             elif packet_type == 2:
                 data = b""
 
-                while len(data) < 10:
-                    packet = sock.recv(10 - len(data))
+                while len(data) < 9:
+                    packet = sock.recv(9 - len(data))
 
                     if not packet:
                         return
@@ -240,13 +240,12 @@ def receive_data(sock):
             # =========================
             elif packet_type == 3:
                 game_started = True
-                print("START empfangen")
 
             # =========================
             # Disconnect
             # =========================
             elif packet_type == 4:
-                p_id, x, y = struct.unpack("!Bii", sock.recv(9))
+                p_id, x, y = struct.unpack("!Bii", sock.recv(10))
                 if p_id in other_players:
                     del other_players[p_id]
         except:
@@ -574,7 +573,9 @@ while running:
 
             if not game_started:
                 if my_id == host_id and start_button.clicked(mouse_pos):
+                    print("SENDING START PACKET")
                     sock.sendall(struct.pack("!B", 99))
+                    print("CLICK:", my_id, host_id, start_button.clicked(mouse_pos))
                 continue
 
             for btn in task_buttons:
