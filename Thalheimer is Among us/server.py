@@ -107,7 +107,8 @@ def handle_client(conn, player_id):
                     if other_id != player_id:
                         conn.sendall(struct.pack("!BBii", other_id, pos[0], pos[1]))
 
-        except:
+        except Exception as e:
+            print(f"CLIENT ERROR {player_id}: {e}")
             break
 
     disconnect_client(player_id)
