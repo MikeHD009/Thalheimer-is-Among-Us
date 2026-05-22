@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="24" tileheight="24" infinite="0" nextlayerid="12" nextobjectid="369">
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="24" tileheight="24" infinite="0" nextlayerid="17" nextobjectid="416">
  <tileset firstgid="1" source="Kachelsätze/4 BigSet.tsx"/>
  <tileset firstgid="91" source="Kachelsätze/jdt.tsx"/>
  <layer id="1" name="Floor" width="100" height="100">
@@ -647,5 +647,51 @@
   <object id="366" x="931.25" y="630" width="60.75" height="21"/>
   <object id="367" x="984" y="710.25" width="20.75" height="58"/>
   <object id="368" x="1080" y="708.75" width="20.25" height="35.5"/>
+ </objectgroup>
+ <objectgroup id="12" name="Doors">
+  <object id="371" x="142" y="128.364" width="50.5455" height="15.2727"/>
+  <object id="373" x="334.727" y="103.697" width="50.5455" height="15.2727"/>
+  <object id="374" x="671.818" y="73.394" width="50.5455" height="15.2727" rotation="-90"/>
+  <object id="375" x="407.273" y="392.727" width="50.5455" height="15.2727"/>
+  <object id="376" x="153.394" y="425.03" width="50.5455" height="15.2727" rotation="-90"/>
+  <object id="377" x="94.2727" y="551.333" width="50.5455" height="15.2727"/>
+  <object id="378" x="120.727" y="729.864" width="50.5455" height="15.2727"/>
+  <object id="379" x="335.227" y="840.864" width="50.5455" height="15.2727" rotation="-90"/>
+  <object id="380" x="272.477" y="625.364" width="52.1819" height="15.2727" rotation="-90"/>
+  <object id="381" x="311.227" y="1057.86" width="50.5455" height="15.2727" rotation="-90"/>
+  <object id="382" x="74.2273" y="1098.86" width="50.5455" height="15.2727" rotation="-180"/>
+  <object id="383" x="193.227" y="1552.86" width="50.5455" height="15.2727" rotation="-180"/>
+  <object id="384" x="362.227" y="1670.36" width="50.5455" height="15.2727" rotation="-180"/>
+  <object id="385" x="1295.73" y="1414.86" width="50.5455" height="15.2727" rotation="90"/>
+  <object id="386" x="978.227" y="1390.36" width="50.5455" height="15.2727" rotation="90"/>
+  <object id="387" x="481.227" y="1308.86" width="50.5455" height="15.2727" rotation="-180"/>
+  <object id="388" x="958.227" y="189.864" width="50.5455" height="15.2727" rotation="90"/>
+  <object id="389" x="1153.73" y="408.364" width="50.5455" height="15.2727" rotation="-180"/>
+  <object id="390" x="1392.85" y="376.239" width="50.5455" height="15.2727" rotation="-180"/>
+  <object id="391" x="1105.23" y="622.364" width="50.5455" height="15.2727" rotation="-180"/>
+  <object id="392" x="1033.91" y="869.545" width="50.5455" height="15.2727" rotation="-180"/>
+  <object id="393" x="1391.98" y="670.364" width="50.5455" height="15.2727" rotation="90"/>
+ </objectgroup>
+ <objectgroup id="14" name="Sabotage">
+  <object id="394" x="-4" y="-5" width="249.5" height="137.5"/>
+  <object id="395" x="22" y="450.667" width="216.667" height="102"/>
+  <object id="396" x="55.6667" y="561.667" width="222" height="172.333"/>
+  <object id="397" x="-5" y="916" width="322" height="173"/>
+  <object id="398" x="40" y="1313" width="232" height="226"/>
+  <object id="399" x="1119" y="1282" width="167" height="204"/>
+  <object id="400" x="329" y="1301" width="336" height="165"/>
+  <object id="401" x="867" y="615" width="287" height="243"/>
+  <object id="402" x="1246" y="74" width="224" height="289"/>
+  <object id="404" x="956" y="98" width="215" height="296"/>
+  <object id="405" x="279.333" y="-6" width="397.333" height="115.333"/>
+  <object id="407" x="2.5" y="255" width="156.5" height="180.5"/>
+ </objectgroup>
+ <objectgroup id="16" name="WindowSabotage">
+  <object id="409" x="396" y="238" width="289" height="162"/>
+  <object id="410" x="99" y="740" width="241" height="148.5"/>
+  <object id="412" x="2" y="1096" width="322" height="192"/>
+  <object id="413" x="289" y="1662" width="294" height="182"/>
+  <object id="414" x="1172" y="615" width="208" height="301"/>
+  <object id="415" x="691" y="1280" width="274.5" height="170.5"/>
  </objectgroup>
 </map>
