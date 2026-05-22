@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="24" tileheight="24" infinite="0" nextlayerid="17" nextobjectid="416">
+ <editorsettings>
+  <export target="Map/Hitboxes.json" format="json"/>
+ </editorsettings>
  <tileset firstgid="1" source="Kachelsätze/4 BigSet.tsx"/>
  <tileset firstgid="91" source="Kachelsätze/jdt.tsx"/>
  <layer id="1" name="Floor" width="100" height="100">
@@ -210,7 +213,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="6" name="Hitbox">
+ <objectgroup id="6" name="Hitbox" visible="0">
   <object id="10" x="0.25" y="-0.5" width="239.75" height="16.5"/>
   <object id="11" x="0.5" y="14.25" width="14.75" height="129.5"/>
   <object id="12" x="9.5" y="128.5" width="134.25" height="14.75"/>
@@ -586,7 +589,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="11" name="VentsHitbox">
+ <objectgroup id="11" name="VentsHitbox" visible="0">
   <object id="299" x="456" y="16" width="53.75" height="33.25"/>
   <object id="304" x="176.545" y="469.091" width="53.8182" height="50.7273"/>
   <object id="306" x="37.3333" y="1216.67" width="49.3333" height="45.3333"/>
@@ -594,7 +597,7 @@
   <object id="309" x="1139.33" y="1306" width="42" height="48"/>
   <object id="310" x="1227.33" y="854" width="56" height="44.6667"/>
  </objectgroup>
- <objectgroup id="10" name="ObjectsHitbox" tintcolor="#ff0000">
+ <objectgroup id="10" name="ObjectsHitbox" visible="0" tintcolor="#ff0000">
   <object id="314" x="119.25" y="10.5" width="98" height="37"/>
   <object id="315" x="167.5" y="64.5" width="21.75" height="31"/>
   <object id="317" x="11.6667" y="227.333" width="73.3333" height="34.3333"/>
@@ -648,7 +651,7 @@
   <object id="367" x="984" y="710.25" width="20.75" height="58"/>
   <object id="368" x="1080" y="708.75" width="20.25" height="35.5"/>
  </objectgroup>
- <objectgroup id="12" name="Doors">
+ <objectgroup id="12" name="Doors" visible="0">
   <object id="371" x="142" y="128.364" width="50.5455" height="15.2727"/>
   <object id="373" x="334.727" y="103.697" width="50.5455" height="15.2727"/>
   <object id="374" x="671.818" y="73.394" width="50.5455" height="15.2727" rotation="-90"/>
@@ -672,7 +675,7 @@
   <object id="392" x="1033.91" y="869.545" width="50.5455" height="15.2727" rotation="-180"/>
   <object id="393" x="1391.98" y="670.364" width="50.5455" height="15.2727" rotation="90"/>
  </objectgroup>
- <objectgroup id="14" name="Sabotage">
+ <objectgroup id="14" name="Sabotage" visible="0">
   <object id="394" x="-4" y="-5" width="249.5" height="137.5"/>
   <object id="395" x="22" y="450.667" width="216.667" height="102"/>
   <object id="396" x="55.6667" y="561.667" width="222" height="172.333"/>
@@ -686,7 +689,7 @@
   <object id="405" x="279.333" y="-6" width="397.333" height="115.333"/>
   <object id="407" x="2.5" y="255" width="156.5" height="180.5"/>
  </objectgroup>
- <objectgroup id="16" name="WindowSabotage">
+ <objectgroup id="16" name="WindowSabotage" visible="0">
   <object id="409" x="396" y="238" width="289" height="162"/>
   <object id="410" x="99" y="740" width="241" height="148.5"/>
   <object id="412" x="2" y="1096" width="322" height="192"/>
