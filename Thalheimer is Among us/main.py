@@ -218,9 +218,9 @@ my_player = Player(100 + (my_id * 30), 100, player_images[my_id % len(player_ima
 # Thread starten
 threading.Thread(target = receive_data, args=(sock,), daemon = True).start()
 
-# =========================================
+# ===================
 # TASK SYSTEM
-# =========================================
+# ===================
 
 task_manager = tasks.TaskManager()
 
@@ -462,9 +462,9 @@ def draw_task_buttons(screen, buttons, player_obj):
 
 font = pygame.font.SysFont("arial", 40)
 
-# =========================
+# ===================
 # Spielschleife
-# =========================
+# ===================
 running = True
 
 while running:
