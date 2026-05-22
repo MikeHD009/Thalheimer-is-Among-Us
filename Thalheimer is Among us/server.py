@@ -15,35 +15,16 @@ game_started = False
 host_id = 0
 
 def send_lobby_update():
-
     player_count = len(clients)
 
     for pid, conn in clients.items():
-
         try:
-
             # Packet Typ 1
-            conn.sendall(
-                struct.pack(
-                    "!BBB",
-                    1,
-                    player_count,
-                    host_id
-                )
-            )
+            conn.sendall(struct.pack("!BBB", 1, player_count, host_id))
 
             for other_id, pname in player_names.items():
-
                 name_bytes = pname.encode()
-
-                conn.sendall(
-                    struct.pack(
-                        f"!BB{len(name_bytes)}s",
-                        other_id,
-                        len(name_bytes),
-                        name_bytes
-                    )
-                )
+                conn.sendall(struct.pack(f"!BB{len(name_bytes)}s", other_id, len(name_bytes), name_bytes))
 
         except:
             pass
@@ -66,7 +47,7 @@ def disconnect_client(player_id):
     if player_id in player_positions:
         del player_positions[player_id]
         # Ein "Disconnect-Paket" an alle senden (z.B. X und Y auf -1000 setzen)
-        disconnect_packet = struct.pack('!BBii', player_id, -1000, -1000)
+        disconnect_packet = struct.pack('!BBii', 4, player_id, -1000, -1000)
         broadcast_to_all(disconnect_packet)
 
     send_lobby_update()
@@ -96,15 +77,15 @@ def handle_client(conn, player_id):
             elif packet_type == 2:
                 data = b""
 
-                while len(data) < 8:
-                    packet = conn.recv(8 - len(data))
+                while len(data) < 10:
+                    packet = conn.recv(10 - len(data))
 
                     if not packet:
                         break
 
                     data += packet
 
-                if len(data) < 8:
+                if len(data) < 10:
                     break
 
                 x, y = struct.unpack("!ii", data)

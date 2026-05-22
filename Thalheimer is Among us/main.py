@@ -212,8 +212,8 @@ def receive_data(sock):
             elif packet_type == 2:
                 data = b""
 
-                while len(data) < 9:
-                    packet = sock.recv(9 - len(data))
+                while len(data) < 10:
+                    packet = sock.recv(10 - len(data))
 
                     if not packet:
                         return
@@ -233,6 +233,14 @@ def receive_data(sock):
             # =========================
             elif packet_type == 3:
                 game_started = True
+
+            # =========================
+            # Disconnect
+            # =========================
+            elif packet_type == 4:
+                p_id, x, y = struct.unpack("!Bii", sock.recv(9))
+                if p_id in other_players:
+                    del other_players[p_id]
         except:
             break
 
