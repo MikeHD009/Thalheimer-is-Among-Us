@@ -19,6 +19,7 @@
             "scaleInEditor": 1
         },
         "Kachelsätze/4 BigSet.tsx": {
+            "dynamicWrapping": false,
             "scaleInDock": 4,
             "scaleInEditor": 2
         },
@@ -39,6 +40,16 @@
             "scaleInEditor": 1
         },
         "Kachelsätze/Wall_Down.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Kachelsätze/jdt.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Kachelsätze/swsdcf.tsx": {
+            "dynamicWrapping": true,
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
@@ -67,6 +78,8 @@
     ],
     "project": "Thalheimer_Among_Us.tiled-project",
     "recentFiles": [
+        "Kachelsätze/jdt.tsx",
+        "Kachelsätze/swsdcf.tsx",
         "Kachelsätze/4 BigSet.tsx",
         "Map.tmx",
         "Kachelsätze/Classroom_A4.tsx",
@@ -82,5 +95,6 @@
     "tileset.tileSize": {
         "height": 24,
         "width": 24
-    }
+    },
+    "tileset.type": 1
 }
