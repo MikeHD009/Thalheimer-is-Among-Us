@@ -184,6 +184,8 @@ def setup_socket(s):
 
 def receive_data(sock):
 
+    print("RECEIVE THREAD STARTED")
+
     global other_players
     global player_names
     global player_count
@@ -249,6 +251,7 @@ def receive_data(sock):
                 if p_id in other_players:
                     del other_players[p_id]
         except:
+            print("RECEIVE THREAD ERROR:", e)
             break
 
 # Verbindung zum zentralen Server herstellen
