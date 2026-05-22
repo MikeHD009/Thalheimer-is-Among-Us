@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Kachelsätze/jdt.tsx",
+    "activeFile": "Map.tmx",
     "expandedProjectPaths": [
         "Kachelsätze",
         "."
@@ -54,11 +54,11 @@
             "scaleInEditor": 1
         },
         "Map.tmx": {
-            "scale": 0.5,
-            "selectedLayer": 5,
+            "scale": 0.33,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 988,
-                "y": 704
+                "x": 1193.939393939394,
+                "y": 933.3333333333333
             }
         },
         "strokespritesheet20121.tsx": {
@@ -79,9 +79,9 @@
     ],
     "project": "Thalheimer_Among_Us.tiled-project",
     "recentFiles": [
-        "Map.tmx",
-        "Kachelsätze/4 BigSet.tsx",
         "Kachelsätze/jdt.tsx",
+        "Kachelsätze/4 BigSet.tsx",
+        "Map.tmx",
         "Kachelsätze/swsdcf.tsx",
         "Kachelsätze/Classroom_A4.tsx",
         "Kachelsätze/Classroom_A2.tsx",
