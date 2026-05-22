@@ -212,15 +212,15 @@ def receive_data(sock):
             elif packet_type == 2:
                 data = b""
 
-                while len(data) < 10:
-                    packet = sock.recv(10 - len(data))
+                while len(data) < 9:
+                    packet = sock.recv(9 - len(data))
 
                     if not packet:
                         return
 
                     data += packet
 
-                _, p_id, x, y = struct.unpack("!Bii", data)
+                p_id, x, y = struct.unpack("!Bii", data)
 
                 if x == -1000 and y == -1000:
                     if p_id in other_players:
