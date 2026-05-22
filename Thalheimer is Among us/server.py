@@ -70,8 +70,10 @@ def handle_client(conn, player_id):
             # SPIEL STARTEN
             # =========================
             if packet_type == 99:
-                if player_id == host_id:
+                if player_id == host_id and not game_started:
+                    game_started = True
                     print("Spiel gestartet!")
+
                     for pid, conn in list(clients.items()):
                         try:
                             conn.sendall(struct.pack("!B", 3))
