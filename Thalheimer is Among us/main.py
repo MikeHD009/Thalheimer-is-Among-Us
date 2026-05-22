@@ -195,6 +195,7 @@ def receive_data(sock):
     while True:
         try:
             data = sock.recv(1)
+            print("RAW BYTE:", data)
             while len(data) < 1:
                 more = sock.recv(1)
                 if not more:
@@ -241,6 +242,7 @@ def receive_data(sock):
             # SPIEL STARTET
             # =========================
             elif packet_type == 3:
+                print(">>> GAME START PACKET RECEIVED")
                 game_started = True
 
             # =========================
