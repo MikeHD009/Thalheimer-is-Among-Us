@@ -250,10 +250,9 @@ tasks_instances = [
     tasks.PizzaCutTask(screen),       # 18
     tasks.VendingMachineTask(screen), # 19
     tasks.BarcodeScanTask(screen),    # 20
-    tasks.LightBulbTask(screen),      # 21
-    tasks.LockerCleanTask(screen),    # 22
-    tasks.TrashDisposalTask(screen),  # 23
-    tasks.PipeLeakTask(screen)        # 24
+    tasks.LockerCleanTask(screen),    # 21
+    tasks.TrashDisposalTask(screen),  # 22
+    tasks.PipeLeakTask(screen)        # 23
 ]
 
 # 2. Dem Task-Manager die erstellten Tasks übergeben
@@ -283,10 +282,9 @@ task_buttons = [
     {"rect": pygame.Rect(640, 540, 60, 60), "type": "pizza", "task_index": 18, "name": "Pizza schneiden"},
     {"rect": pygame.Rect(760, 510, 65, 90), "type": "vending", "task_index": 19, "name": "Automat klemmt"},
     {"rect": pygame.Rect(880, 540, 55, 60), "type": "barcode", "task_index": 20, "name": "Barcodes scannen"},
-    {"rect": pygame.Rect(1020, 480, 40, 60), "type": "light_bulb", "task_index": 21, "name": "Glühbirne wechseln"},
-    {"rect": pygame.Rect(1020, 200, 45, 70), "type": "locker", "task_index": 22, "name": "Spind aufräumen"},
-    {"rect": pygame.Rect(1020, 340, 50, 70), "type": "trash_bin", "task_index": 23, "name": "Müll wegbringen"},
-    {"rect": pygame.Rect(800, 340, 70, 40), "type": "pipe_leak", "task_index": 24, "name": "Rohrbruch dichten"},
+    {"rect": pygame.Rect(1020, 200, 45, 70), "type": "locker", "task_index": 21, "name": "Spind aufräumen"},
+    {"rect": pygame.Rect(1020, 340, 50, 70), "type": "trash_bin", "task_index": 22, "name": "Müll wegbringen"},
+    {"rect": pygame.Rect(800, 340, 70, 40), "type": "pipe_leak", "task_index": 23, "name": "Rohrbruch dichten"},
 ]
 
 def draw_task_buttons(screen, buttons, player_obj):
@@ -454,12 +452,7 @@ def draw_task_buttons(screen, buttons, player_obj):
             pygame.draw.polygon(screen, (50, 50, 50), [(r.x + 8, r.bottom), (r.right - 8, r.bottom), (r.right, r.y + 15), (r.x, r.y + 15)])
             pygame.draw.rect(screen, (70, 70, 70), (r.x - 4, r.y, r.width + 8, 15), border_radius=3)
 
-        # 23. GLÜHBIRNE
-        elif t == "light_bulb":
-            pygame.draw.circle(screen, (255, 220, 50), (r.centerx, r.y + 20), 18)
-            pygame.draw.rect(screen, (150, 150, 150), (r.centerx - 8, r.y + 35, 16, 15))
-
-        # 24. ROHR / WASSERLECK
+        # 23. ROHR / WASSERLECK
         elif t == "pipe_leak":
             pygame.draw.rect(screen, (100, 100, 100), r)
             pygame.draw.rect(screen, (50, 150, 255), (r.centerx - 5, r.y - 15, 10, 15))
