@@ -108,7 +108,7 @@
          "name":"Floor",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":100,
          "x":0,
          "y":0
@@ -219,7 +219,7 @@
          "name":"Walls",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":100,
          "x":0,
          "y":0
@@ -3583,7 +3583,7 @@
          "name":"Objects",
          "opacity":1,
          "type":"tilelayer",
-         "visible":false,
+         "visible":true,
          "width":100,
          "x":0,
          "y":0
@@ -3664,10 +3664,22 @@
                  "width":56,
                  "x":1227.33,
                  "y":854
+                }, 
+                {
+                 "height":42,
+                 "id":416,
+                 "name":"",
+                 "opacity":1,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":45,
+                 "x":1040.33333333333,
+                 "y":162.333333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -4821,7 +4833,7 @@
          "y":0
         }],
  "nextlayerid":17,
- "nextobjectid":416,
+ "nextobjectid":419,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.12.1",
