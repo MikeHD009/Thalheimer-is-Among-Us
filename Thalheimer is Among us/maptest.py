@@ -46,51 +46,73 @@ class Player:
 def load_hitboxes(filepath):
     hitboxes = []
     vents = []
+    plants = [] # Liste für die Pflanzen-Teleporter
+    
     if not os.path.exists(filepath):
         print(f"WARNUNG: Hitbox-Datei nicht gefunden: {filepath}")
-        return hitboxes
+        return hitboxes, vents, plants
     
     with open(filepath, "r", encoding="utf-8-sig") as f:
         map_data = json.load(f)
     
-    # Map-Breite auslesen (Standard 100, falls nicht angegeben)
     map_width = map_data.get("width", 100)
 
-    # Alle Schichten (Layers) durchsuchen
     for layer in map_data.get("layers", []):
-        if layer.get("name") in ["Hitbox", "ObjectsHitbox"]:
-            # 1. Fall: Hitboxen sind als Tiled-Objekte definiert
+        name = layer.get("name")
+        
+        # 1. Normale Wände und Hindernisse
+        if name in ["Hitbox", "ObjectsHitbox"]:
             if "objects" in layer:
                 for obj in layer["objects"]:
                     hitboxes.append(pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"]))
-            
-            # 2. Fall: Hitboxen sind als normale Tile-Ebene gemalt[cite: 1]
             elif "data" in layer:
                 for i, tile_id in enumerate(layer["data"]):
-                    if tile_id != 0: # 0 bedeutet leeres Tile
+                    if tile_id != 0:
                         x = (i % map_width) * TILE_SIZE
                         y = (i // map_width) * TILE_SIZE
                         hitboxes.append(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE))
 
-        elif layer.get("name") == "VentsHitbox":
-
+        # 2. Vents
+        elif name == "VentsHitbox":
             if "objects" in layer:
                 for obj in layer["objects"]:
-                    vents.append(
-                        pygame.Rect(
-                            obj["x"],
-                            obj["y"],
-                            obj["width"],
-                            obj["height"]
-                        )
-                    )
+                    vents.append(pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"]))
+            elif "data" in layer: # Falls Vents als Kacheln gemalt wurden
+                for i, tile_id in enumerate(layer["data"]):
+                    if tile_id != 0:
+                        x = (i % map_width) * TILE_SIZE
+                        y = (i // map_width) * TILE_SIZE
+                        vents.append(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE))
+                        
+        # 3. Pflanzen-Teleporter
+        elif name == "PlantTeleport":
+            # Fall A: Als Tiled-Objekte platziert
+            if "objects" in layer:
+                for obj in layer["objects"]:
+                    plants.append(pygame.Rect(obj["x"], obj["y"], obj["width"], obj["height"]))
+            # Fall B: Als normale Kacheln (Tiles) auf die Map gemalt
+            elif "data" in layer:
+                for i, tile_id in enumerate(layer["data"]):
+                    if tile_id != 0:
+                        x = (i % map_width) * TILE_SIZE
+                        y = (i // map_width) * TILE_SIZE
+                        plants.append(pygame.Rect(x, y, TILE_SIZE, TILE_SIZE))
     
-    return hitboxes, vents
+    # KONSOLEN-CHECK: Hier siehst du sofort, ob überhaupt etwas geladen wurde!
+    print(f"[DEBUG] Geladen: {len(hitboxes)} Hitboxes | {len(vents)} Vents | {len(plants)} Pflanzen")
+    
+    return hitboxes, vents, plants
 
 def get_current_vent(player, vents):
     for vent in vents:
         if player.rect.colliderect(vent):
             return vent
+    return None
+
+def get_current_plant(player, plants):
+    for plant in plants:
+        if player.rect.colliderect(plant):
+            return plant
     return None
 
 def main():
@@ -117,7 +139,7 @@ def main():
         sys.exit()
 
     # Hitboxen laden
-    hitboxes, vents = load_hitboxes(
+    hitboxes, vents, plants = load_hitboxes(
         os.path.join(base_path, "Hitboxes.json")
     )
 
@@ -150,6 +172,13 @@ def main():
                         # Spieler in Mitte des Zielvents setzen
                         player.rect.center = next_vent.center
 
+                    else:
+                        current_plant = get_current_plant(player, plants)
+                        if current_plant:
+                            current_index = plants.index(current_plant)
+                            next_index = (current_index + 1) % len(plants)
+                            player.rect.center = plants[next_index].center
+
         # Eingaben verarbeiten
         keys = pygame.key.get_pressed()
         dx, dy = 0, 0
@@ -171,7 +200,7 @@ def main():
         camera_y = player.rect.y - (INTERNAL_SIZE // 2) + (TILE_SIZE // 2)
 
         # Rendering auf der internen Surface
-        internal_surface.fill((40, 40, 40)) # Schwarz als Hintergrund
+        internal_surface.fill((40, 80, 40)) # Schwarz als Hintergrund
         
         # Map-Bilder zeichnen
         internal_surface.blit(floor_img, (-camera_x, -camera_y))
@@ -192,7 +221,7 @@ def main():
         draw_y = (screen_height - scaled_size) // 2
 
         # Auf den tatsächlichen Bildschirm zeichnen
-        screen.fill((40, 40, 40)) # Balken links und rechts abdunkeln
+        screen.fill((40, 80, 40)) # Balken links und rechts abdunkeln
         screen.blit(scaled_surface, (draw_x, draw_y))
 
         pygame.display.flip()

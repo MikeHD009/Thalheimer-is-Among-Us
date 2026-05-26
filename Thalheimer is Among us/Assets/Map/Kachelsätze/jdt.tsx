@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.12.1" name="jdt" tilewidth="96" tileheight="57" tilecount="43" columns="0">
+<tileset version="1.10" tiledversion="1.12.1" name="jdt" tilewidth="96" tileheight="57" tilecount="54" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image source="../Map Assets/Objects/Object (1).png" width="14" height="13"/>
@@ -129,5 +129,38 @@
  </tile>
  <tile id="42">
   <image source="../Map Assets/Objects/Vent.png" width="16" height="12"/>
+ </tile>
+ <tile id="54">
+  <image source="../Map Assets/Objects/Garden/blume.png" width="24" height="24"/>
+ </tile>
+ <tile id="55">
+  <image source="../Map Assets/Objects/Garden/blume2.png" width="24" height="24"/>
+ </tile>
+ <tile id="56">
+  <image source="../Map Assets/Objects/Garden/busch.png" width="24" height="24"/>
+ </tile>
+ <tile id="57">
+  <image source="../Map Assets/Objects/Garden/busch1.png" width="24" height="24"/>
+ </tile>
+ <tile id="58">
+  <image source="../Map Assets/Objects/Garden/busch2.png" width="24" height="24"/>
+ </tile>
+ <tile id="59">
+  <image source="../Map Assets/Objects/Garden/grass.png" width="24" height="24"/>
+ </tile>
+ <tile id="60">
+  <image source="../Map Assets/Objects/Garden/pilz.png" width="24" height="24"/>
+ </tile>
+ <tile id="61">
+  <image source="../Map Assets/Objects/Garden/ranke.png" width="24" height="24"/>
+ </tile>
+ <tile id="62">
+  <image source="../Map Assets/Objects/Garden/stein.png" width="24" height="24"/>
+ </tile>
+ <tile id="63">
+  <image source="../Map Assets/Objects/Garden/stein2.png" width="24" height="24"/>
+ </tile>
+ <tile id="64">
+  <image source="../Map Assets/Objects/Garden/totem.png" width="24" height="24"/>
  </tile>
 </tileset>

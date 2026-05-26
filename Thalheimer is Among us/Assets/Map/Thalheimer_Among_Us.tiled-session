@@ -3,10 +3,10 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Map.tmx",
+    "activeFile": "Kachelsätze/jdt.tsx",
     "expandedProjectPaths": [
-        "Kachelsätze",
-        "."
+        ".",
+        "Kachelsätze"
     ],
     "file.lastUsedOpenFilter": "Alle Dateien (*)",
     "fileStates": {
@@ -45,8 +45,8 @@
         },
         "Kachelsätze/jdt.tsx": {
             "dynamicWrapping": true,
-            "scaleInDock": 1,
-            "scaleInEditor": 2
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
         },
         "Kachelsätze/swsdcf.tsx": {
             "dynamicWrapping": true,
@@ -54,11 +54,11 @@
             "scaleInEditor": 1
         },
         "Map.tmx": {
-            "scale": 0.33,
-            "selectedLayer": 5,
+            "scale": 1.5,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 1696.9696969696968,
-                "y": 1209.090909090909
+                "x": 702.3333333333333,
+                "y": 980
             }
         },
         "strokespritesheet20121.tsx": {
@@ -67,7 +67,7 @@
         }
     },
     "last.exportedFilePath": "C:/Users/leand/Desktop/Python/Freizeit/ThalheimerIsAmongUs/Thalheimer-is-Among-Us/Thalheimer is Among us/Assets/Map/Map",
-    "last.imagePath": "C:/Users/leand/Desktop/Python/Freizeit/ThalheimerIsAmongUs/Thalheimer-is-Among-Us/Thalheimer is Among us/Assets/Map/Map Assets/Objects",
+    "last.imagePath": "C:/Users/leand/Desktop/Python/Freizeit/ThalheimerIsAmongUs/Thalheimer-is-Among-Us/Thalheimer is Among us/Assets/Map/Map Assets/Objects/Garden",
     "map.height": 100,
     "map.lastUsedExportFilter": "JSON-Kartendateien (*.tmj *.json)",
     "map.lastUsedFormat": "tmx",
@@ -81,9 +81,9 @@
     ],
     "project": "Thalheimer_Among_Us.tiled-project",
     "recentFiles": [
-        "Kachelsätze/jdt.tsx",
-        "Kachelsätze/4 BigSet.tsx",
         "Map.tmx",
+        "Kachelsätze/4 BigSet.tsx",
+        "Kachelsätze/jdt.tsx",
         "Kachelsätze/swsdcf.tsx",
         "Kachelsätze/Classroom_A4.tsx",
         "Kachelsätze/Classroom_A2.tsx",
